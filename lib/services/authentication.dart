@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -49,4 +49,4 @@ class Auth implements BaseAuth {
     FirebaseUser user = await _fireBaseAuth.currentUser();
     return user.isEmailVerified;
   }
-}
+}*/

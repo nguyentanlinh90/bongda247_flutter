@@ -1,4 +1,4 @@
-import 'package:bongdaphui/pages/home_page.dart';
+/*import 'package:bongdaphui/pages/home_page.dart';
 import 'package:bongdaphui/pages/login_signup_page.dart';
 import 'package:bongdaphui/services/authentication.dart';
 import 'package:flutter/material.dart';
@@ -89,4 +89,4 @@ class _RootPageState extends State<RootPage> {
         return _buildWaitingScreen();
     }
   }
-}
+}*/

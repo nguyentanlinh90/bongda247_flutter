@@ -1,10 +1,16 @@
+import 'package:bongdaphui/ui/screen/home_screen.dart';
 import 'package:bongdaphui/ui/screen/notfound_screen.dart';
 import 'package:bongdaphui/ui/screen/splash_creen.dart';
-import 'package:bongdaphui/ui/screen/welcome_screen.dart';
+import 'package:bongdaphui/ui/screen/sigin_signup_screen.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//    systemNavigationBarColor: Colors.blue,
+    statusBarColor: Colors.green[900],
+  ));
   runApp(MyApp());
 }
 
@@ -18,7 +24,8 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         //routes
         routes: <String, WidgetBuilder>{
-          Const.welcomeRoute: (BuildContext context) => WelcomeScreen(),
+          Const.mainRoute: (BuildContext context) => HomeScreen(),
+          Const.welcomeRoute: (BuildContext context) => SignInSignUpScreen(),
         },
         onUnknownRoute: (RouteSettings rs) =>
             new MaterialPageRoute(builder: (context) => new NotFoundScreen()));

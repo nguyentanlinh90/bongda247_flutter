@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class Const {
   //routes
   static const String rootRoute = "/root";
+  static const String mainRoute = "/main";
   static const String welcomeRoute = "/welcome";
   static const String signInRoute = "/signin";
   static const String signUpRoute = "/signup";
 
   //strings
   static const String appName = "Bóng Đá Phủi";
+  static const String start = "Bắt Đầu";
   static const String signIn = "Đăng Nhập";
   static const String signUp = "Đăng Ký";
 

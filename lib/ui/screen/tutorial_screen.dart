@@ -5,7 +5,6 @@ import 'package:bongdaphui/utils/shared_preferences.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(new TutorialScreen());
 
@@ -38,7 +37,7 @@ class TutorialScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               height: deviceSize.height * 0.7,
-              padding: EdgeInsets.only(top: Const.size_40),
+              padding: EdgeInsets.only(top: Const.size_20),
               child: new Stack(
                 children: <Widget>[
                   Center(
@@ -105,13 +104,13 @@ class TutorialScreen extends StatelessWidget {
                     right: Const.size_15,
                     left: Const.size_15),
                 child: CustomFlatButton(
-                  title: "Bắt đầu",
+                  title: Const.start,
                   fontSize: 22.0,
                   fontWeight: FontWeight.w700,
                   textColor: Colors.white,
                   onPressed: () {
                     SharedPreferencesUtil.setSeenTutorialPrefs(true);
-                    Navigator.of(context).pushNamed(Const.welcomeRoute);
+                    Navigator.of(context).pushNamed(Const.mainRoute);
                   },
                   splashColor: Colors.black12,
                   borderColor: Colors.white,
@@ -126,11 +125,6 @@ class TutorialScreen extends StatelessWidget {
     return widgets;
   }
 
-  _saveSeenTutorial() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(Const.seenTutorialPrefs, true);
-  }
-
   @override
   Widget build(BuildContext context) {
     deviceSize = MediaQuery.of(context).size;
@@ -138,7 +132,8 @@ class TutorialScreen extends StatelessWidget {
     return new Scaffold(
       backgroundColor: Colors.white,
       body: Scaffold(
-        body: Swiper.children(
+        body: SafeArea(
+            child: Swiper.children(
           autoplay: false,
           index: 0,
           loop: false,
@@ -155,7 +150,7 @@ class TutorialScreen extends StatelessWidget {
             iconNext: null,
           ),
           children: _getPages(context),
-        ),
+        )),
       ),
     );
   }

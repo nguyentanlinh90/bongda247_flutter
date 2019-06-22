@@ -21,7 +21,14 @@ class Const {
   ];
 
   //fonts
-  static const String openSans = "OpenSans";
+  static const String openSansFont = "OpenSans";
+  static const String ralewayFont = "Raleway";
+
+  //images
+  static const String imageDir = "assets/images";
+  static const String icLauncher = "$imageDir/ic_launcher.png";
+  static const String icSplash = "$imageDir/ic_splash.png";
+  static const String icPlaying = "$imageDir/playing.png";
 
   //Size
   static const double size_15 = 15.0;

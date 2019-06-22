@@ -1,3 +1,4 @@
+import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 
 class Util {
@@ -8,7 +9,7 @@ class Util {
           new Container(
             width: 200,
             height: 200,
-            child: new Image.asset('images/ic_splash.png'),
+            child: new Image.asset(Const.icSplash),
           )
         ]);
   }

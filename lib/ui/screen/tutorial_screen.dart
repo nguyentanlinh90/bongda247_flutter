@@ -62,7 +62,7 @@ class TutorialScreen extends StatelessWidget {
                     decoration: TextDecoration.none,
                     fontSize: 24.0,
                     fontWeight: FontWeight.w700,
-                    fontFamily: Const.openSans,
+                    fontFamily: Const.openSansFont,
                   ),
                 ))),
             Container(
@@ -77,7 +77,7 @@ class TutorialScreen extends StatelessWidget {
                   decoration: TextDecoration.none,
                   fontSize: Const.size_15,
                   fontWeight: FontWeight.w300,
-                  fontFamily: Const.openSans,
+                  fontFamily: Const.openSansFont,
                 ),
               ),
             )

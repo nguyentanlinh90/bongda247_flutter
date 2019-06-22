@@ -25,7 +25,7 @@ class HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   // Create a tab controller
   TabController controller;
-  int currentTab = 0;
+  int currentPosTab = 0;
   final PageStorageBucket bucket = PageStorageBucket();
   final List<Widget> tabs = [
     FieldsTab(),
@@ -34,7 +34,7 @@ class HomeScreenState extends State<HomeScreen>
     ClubsTab(),
     AccountTab()
   ];
-  Widget currentTabs = FieldsTab();
+  Widget currentScreenTabs = FieldsTab();
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class HomeScreenState extends State<HomeScreen>
         // set the controller
         controller: controller,
       )*/
-      body: PageStorage(child: currentTabs, bucket: bucket),
+      body: PageStorage(child: currentScreenTabs, bucket: bucket),
       bottomNavigationBar: BottomNav(
         labelStyle: LabelStyle(
             showOnSelect: true,
@@ -77,11 +77,11 @@ class HomeScreenState extends State<HomeScreen>
             color: Colors.white,
             onSelectColor: Colors.yellow),
         color: Colors.green[900],
-        index: currentTab,
+        index: currentPosTab,
         onTap: (i) {
           setState(() {
-            currentTab = i;
-            currentTabs = tabs[i];
+            currentPosTab = i;
+            currentScreenTabs = tabs[i];
           });
         },
         items: [

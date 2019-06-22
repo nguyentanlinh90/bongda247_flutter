@@ -4,7 +4,7 @@ class Tutorial {
   String content;
   String photo;
 
-  Tutorial(this.id, this.title, this.content, this.photo);
+//  Tutorial(this.id, this.title, this.content, this.photo);
 
   Tutorial.fromJson(var value) {
     this.id = value['id'];

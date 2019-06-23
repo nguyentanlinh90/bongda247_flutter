@@ -34,6 +34,9 @@ class Const {
   static const String quickNormalFont = "Quicksand_Book.otf";
   static const String quickLightFont = "Quicksand_Light.otf";
 
+  //json
+  static const String jsonCity = "assets/json/json_city.json";
+
   //images
   static const String imageDir = "assets/images";
   static const String icLauncher = "$imageDir/ic_launcher.png";
@@ -51,6 +54,7 @@ class Const {
   static const double size_40 = 40.0;
   static const double size_50 = 50.0;
   static const double size_60 = 60.0;
+  static const double size_100 = 100.0;
 
   //SharedPreferences
   static const String seenTutorialPrefs = "seenTutorial";

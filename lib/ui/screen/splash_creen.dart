@@ -1,4 +1,4 @@
-import 'package:bongdaphui/models/tutorial.dart';
+import 'package:bongdaphui/models/tutorial_model.dart';
 import 'package:bongdaphui/ui/screen/home_screen.dart';
 import 'package:bongdaphui/ui/screen/tutorial_screen.dart';
 import 'package:bongdaphui/utils/const.dart';

@@ -1,5 +1,4 @@
-import 'package:bongdaphui/logic/bloc/field_bloc.dart';
-import 'package:bongdaphui/models/soccer_field.dart';
+import 'package:bongdaphui/models/soccer_field_model.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -184,90 +183,65 @@ class _FieldsTabState extends State<FieldsTab> {
           ],
         ),
       );
+  List<DropdownMenuItem<String>> list = [];
+  String _color = 'red';
+  List<String> _colors = <String>['red', 'green', 'blue', 'orange'];
 
-//allposts dropdown
-  Widget bottomBar() => PreferredSize(
-      preferredSize: Size(double.infinity, Const.size_50),
-      child: Container(
-          color: Colors.black,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 50.0,
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "All Posts",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w700),
-                  ),
-                  Icon(Icons.arrow_drop_down)
-                ],
+  buildForm() => new FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: Const.size_10, right: Const.size_10),
+                labelText: '',
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white))),
+//            isEmpty: _color == '',
+            child: new DropdownButtonHideUnderline(
+              child: new DropdownButton<String>(
+                value: _color,
+                isDense: true,
+                onChanged: (String newValue) {
+                  setState(() {
+                    _color = newValue;
+                  });
+                },
+                items: _colors.map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: textTitle(value),
+                  );
+                }).toList(),
               ),
             ),
-          )));
-
-  Widget appBar() => SliverAppBar(
-        backgroundColor: Colors.green,
-        elevation: 2.0,
-        title: Text("Feed"),
-        forceElevated: true,
-        pinned: true,
-        floating: true,
-        bottom: bottomBar(),
-      );
-
-  Widget bodyList(List<SoccerField> fields) => SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: postCard(context, fields[index]),
-            ),
           );
-        }, childCount: fields.length),
+        },
       );
 
-  Widget _buildListItem(List<SoccerField> fields) => SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: postCard(context, fields[index]),
+  Widget dropDow() => SizedBox(
+        width: double.infinity,
+        height: Const.size_60,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: buildForm(),
             ),
-          );
-        }, childCount: fields.length),
+            SizedBox(
+              width: 0.5,
+              height: Const.size_50,
+              child: const DecoratedBox(
+                decoration: const BoxDecoration(color: Colors.grey),
+              ),
+            ),
+            Expanded(
+              child: buildForm(),
+            )
+          ],
+        ),
       );
-
-  Widget bodySliverList(List<SoccerField> fields) {
-    FieldBloc fieldBloc = FieldBloc(fields);
-    return StreamBuilder<List<SoccerField>>(
-        stream: fieldBloc.postItems,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? /*Column(
-                  children: <Widget>[*/
-              CustomScrollView(
-                  slivers: <Widget>[
-                    /*Container(
-                      width: double.infinity,
-                      height: 50.0,
-                      child: Text("sâsasa"),
-                    ),*/
-                    bodyList(snapshot.data),
-                  ],
-//                    )
-//                  ],
-                )
-              : Center(child: CircularProgressIndicator());
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
+    Util.loadCity();
     return new Scaffold(
       backgroundColor: Colors.white,
       body: StreamBuilder(
@@ -279,28 +253,17 @@ class _FieldsTabState extends State<FieldsTab> {
                   child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation<Color>(
                           Colors.green[900])));
-//            return bodySliverList(getList(snapshot));
-            /*return Column(
-              children: <Widget>[
-//                Text('Hello'),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: getList(snapshot).length,
-                      itemBuilder: (context, i) {
-                        postCard(context, getList(snapshot)[i]);
-                      }),
-                )
-              ],
-            );*/
             return SafeArea(
               child: Column(
                 children: <Widget>[
+                  dropDow(),
                   SizedBox(
+                    height: 0.5,
                     width: double.infinity,
-                    height: 50.0,
-                    child: bottomBar(),
+                    child: const DecoratedBox(
+                      decoration: const BoxDecoration(color: Colors.grey),
+                    ),
                   ),
-                  Divider(color: Colors.grey, height: 1.0),
                   Expanded(
                     child: Scrollbar(
                         child: ListView.builder(
@@ -311,8 +274,6 @@ class _FieldsTabState extends State<FieldsTab> {
                                   onTap: () => print(i),
                                   child:
                                       postCard(context, getList(snapshot)[i]));
-
-//                  return postCard(context, getList(snapshot)[i]);
                             })),
                   )
                 ],

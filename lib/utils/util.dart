@@ -2,6 +2,7 @@ import 'dart:async' show Future;
 import 'dart:convert';
 
 import 'package:bongdaphui/models/city_model.dart';
+import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -28,15 +29,32 @@ class Util {
     return await rootBundle.loadString(Const.jsonCity);
   }
 
-  static Future loadCity() async {
+  static Future<List<CityModel>> loadCity() async {
     String jsonString = await _loadCityAsset();
-    _parseJsonForCity(jsonString);
+    List responseJson = json.decode(jsonString);
+    return responseJson.map((m) => new CityModel.fromJson(m)).toList();
   }
 
-  static List<CityModel> _parseJsonForCity(String jsonString) {
-    List<CityModel> cityList = List();
-    List responseJson = json.decode(jsonString);
-    cityList = responseJson.map((m) => new CityModel.fromJson(m)).toList();
-    return cityList[0].districts;
+  static Future<List<DistrictModel>> loadDistrict(String idCity) async {
+    List<DistrictModel> districtList = List();
+    List<CityModel> cityList = await loadCity();
+    for (int i = 0; i < cityList.length; i++) {
+      if ((idCity == cityList[i].id)) {
+        List modelList = cityList[i].districts;
+        districtList =
+            modelList.map((m) => new DistrictModel.fromJson(m)).toList();
+      }
+    }
+    return districtList;
+  }
+
+  static Widget showViewNoData(BuildContext context) {
+    return new Center(
+      child: Text('Chưa có dữ liệu',
+          style: Theme.of(context)
+              .textTheme
+              .body1
+              .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900])),
+    );
   }
 }

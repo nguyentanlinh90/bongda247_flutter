@@ -1,3 +1,5 @@
+import 'package:bongdaphui/models/city_model.dart';
+import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/soccer_field_model.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
@@ -15,16 +17,46 @@ class FieldsTab extends StatefulWidget {
   }
 }
 
-List<SoccerField> getList(AsyncSnapshot dataSnapshot) {
-  List<SoccerField> list = new List();
-
-  for (var value in dataSnapshot.data.documents) {
-    list.add(new SoccerField.fromJson(value));
-  }
-  return list;
-}
-
 class _FieldsTabState extends State<FieldsTab> {
+  static List<CityModel> _listCity = List();
+  static List<DistrictModel> _listDistrict = List();
+  CityModel _city;
+  DistrictModel _district;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadListCity();
+  }
+
+  _loadListCity() async {
+    _listCity = await Util.loadCity();
+    setState(() {
+      _city = _listCity[0];
+      _loadListDistrict(_city);
+    });
+  }
+
+  _loadListDistrict(CityModel cityModel) async {
+    _listDistrict = await Util.loadDistrict(cityModel.id);
+    setState(() {
+      _district = _listDistrict[0];
+    });
+  }
+
+  List<SoccerField> getList(AsyncSnapshot dataSnapshot) {
+    List<SoccerField> list = new List();
+    for (var value in dataSnapshot.data.documents) {
+      SoccerField soccerField = new SoccerField.fromJson(value);
+      if (_city.id == soccerField.idCity &&
+          ('0' == _district.id || _district.id == soccerField.idDistrict)) {
+        list.add(soccerField);
+      }
+    }
+    return list;
+  }
+
   selectPhone(BuildContext context, String phone1, String phone2) async {
     showDialog(
       context: context,
@@ -183,32 +215,62 @@ class _FieldsTabState extends State<FieldsTab> {
           ],
         ),
       );
-  List<DropdownMenuItem<String>> list = [];
-  String _color = 'red';
-  List<String> _colors = <String>['red', 'green', 'blue', 'orange'];
 
-  buildForm() => new FormField<String>(
+  buildFormCity() => new FormField<String>(
         builder: (FormFieldState<String> state) {
           return InputDecorator(
             decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(left: Const.size_10, right: Const.size_10),
+                contentPadding: const EdgeInsets.only(
+                    left: Const.size_10, right: Const.size_10),
                 labelText: '',
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white))),
 //            isEmpty: _color == '',
             child: new DropdownButtonHideUnderline(
-              child: new DropdownButton<String>(
-                value: _color,
+              child: new DropdownButton<CityModel>(
+                value: _city,
                 isDense: true,
-                onChanged: (String newValue) {
+                onChanged: (CityModel newValue) {
                   setState(() {
-                    _color = newValue;
+                    _city = newValue;
+                    _loadListDistrict(_city);
                   });
                 },
-                items: _colors.map((String value) {
-                  return new DropdownMenuItem<String>(
+                items: _listCity.map((CityModel value) {
+                  return new DropdownMenuItem<CityModel>(
                     value: value,
-                    child: textTitle(value),
+                    child: textDes(value.name),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      );
+
+  buildFormDistrict() => new FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(
+                    left: Const.size_10, right: Const.size_10),
+                labelText: '',
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white))),
+//            isEmpty: _color == '',
+            child: new DropdownButtonHideUnderline(
+              child: new DropdownButton<DistrictModel>(
+                value: _district,
+                isDense: true,
+                onChanged: (DistrictModel newValue) {
+                  setState(() {
+                    _district = newValue;
+                  });
+                },
+                items: _listDistrict.map((DistrictModel value) {
+                  return new DropdownMenuItem<DistrictModel>(
+                    value: value,
+                    child: textDes(value.name),
                   );
                 }).toList(),
               ),
@@ -219,11 +281,11 @@ class _FieldsTabState extends State<FieldsTab> {
 
   Widget dropDow() => SizedBox(
         width: double.infinity,
-        height: Const.size_60,
+        height: Const.size_50,
         child: Row(
           children: <Widget>[
             Expanded(
-              child: buildForm(),
+              child: buildFormCity(),
             ),
             SizedBox(
               width: 0.5,
@@ -233,7 +295,7 @@ class _FieldsTabState extends State<FieldsTab> {
               ),
             ),
             Expanded(
-              child: buildForm(),
+              child: buildFormDistrict(),
             )
           ],
         ),
@@ -241,45 +303,54 @@ class _FieldsTabState extends State<FieldsTab> {
 
   @override
   Widget build(BuildContext context) {
-    Util.loadCity();
-    return new Scaffold(
-      backgroundColor: Colors.white,
-      body: StreamBuilder(
-          stream:
-              Firestore.instance.collection(Const.fieldsCollection).snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(
-                  child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.green[900])));
-            return SafeArea(
-              child: Column(
-                children: <Widget>[
-                  dropDow(),
-                  SizedBox(
-                    height: 0.5,
-                    width: double.infinity,
-                    child: const DecoratedBox(
-                      decoration: const BoxDecoration(color: Colors.grey),
+    if (_listCity.length > 0 && _listDistrict.length > 0) {
+      return new Scaffold(
+        backgroundColor: Colors.white,
+        body: StreamBuilder(
+            stream: Firestore.instance
+                .collection(Const.fieldsCollection)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Center(
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.green[900])));
+              return SafeArea(
+                child: Column(
+                  children: <Widget>[
+                    dropDow(),
+                    SizedBox(
+                      height: 0.5,
+                      width: double.infinity,
+                      child: const DecoratedBox(
+                        decoration: const BoxDecoration(color: Colors.grey),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Scrollbar(
-                        child: ListView.builder(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            itemCount: getList(snapshot).length,
-                            itemBuilder: (context, i) {
-                              return GestureDetector(
-                                  onTap: () => print(i),
-                                  child:
-                                      postCard(context, getList(snapshot)[i]));
-                            })),
-                  )
-                ],
-              ),
-            );
-          }),
-    );
+                    Expanded(
+                      child: getList(snapshot).length > 0
+                          ? Scrollbar(
+                              child: ListView.builder(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  itemCount: getList(snapshot).length,
+                                  itemBuilder: (context, i) {
+                                    return GestureDetector(
+                                        onTap: () => print(i),
+                                        child: postCard(
+                                            context, getList(snapshot)[i]));
+                                  }))
+                          : Util.showViewNoData(context),
+                    )
+                  ],
+                ),
+              );
+            }),
+      );
+    } else {
+      return Center(
+          child: CircularProgressIndicator(
+              valueColor:
+                  new AlwaysStoppedAnimation<Color>(Colors.green[900])));
+    }
   }
 }

@@ -30,6 +30,7 @@ dependencies:
   flutter_swiper:
   shared_preferences:
   bmnav:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

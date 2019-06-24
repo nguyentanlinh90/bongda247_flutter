@@ -31,6 +31,7 @@ dependencies:
   shared_preferences:
   bmnav:
   url_launcher:
+  flutter_money_formatter:
 
 dev_dependencies:
   flutter_test:

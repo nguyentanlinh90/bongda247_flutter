@@ -1,10 +1,14 @@
+import 'package:bongdaphui/listener/select_city_listener.dart';
+import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/soccer_field_model.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/text_util.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 void main() {
   runApp(FieldsTab());
@@ -17,16 +21,31 @@ class FieldsTab extends StatefulWidget {
   }
 }
 
-class _FieldsTabState extends State<FieldsTab> {
-  static List<CityModel> _listCity = List();
-  static List<DistrictModel> _listDistrict = List();
+class _FieldsTabState extends State<FieldsTab>
+    implements SelectCityListener, SelectDistrictListener {
+  List<CityModel> _listCity = List();
+  List<DistrictModel> _listDistrict = List();
   CityModel _city;
   DistrictModel _district;
 
   @override
+  void onSelectCity(CityModel model) {
+    setState(() {
+      _city = model;
+      _loadListDistrict(_city);
+    });
+  }
+
+  @override
+  void onSelectDistrict(DistrictModel model) {
+    setState(() {
+      _district = model;
+    });
+  }
+
+  @override
   void initState() {
     super.initState();
-
     _loadListCity();
   }
 
@@ -45,7 +64,7 @@ class _FieldsTabState extends State<FieldsTab> {
     });
   }
 
-  List<SoccerField> getList(AsyncSnapshot dataSnapshot) {
+  List<SoccerField> _getList(AsyncSnapshot dataSnapshot) {
     List<SoccerField> list = new List();
     for (var value in dataSnapshot.data.documents) {
       SoccerField soccerField = new SoccerField.fromJson(value);
@@ -54,27 +73,30 @@ class _FieldsTabState extends State<FieldsTab> {
         list.add(soccerField);
       }
     }
+    list.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
     return list;
   }
 
-  selectPhone(BuildContext context, String phone1, String phone2) async {
+  _selectPhone(BuildContext context, String phone1, String phone2) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: textContent(Const.selectPhone),
+            title: TextUtil.textContent(context, Const.selectPhone),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 FlatButton(
-                  child: textTitle(phone1),
+                  child: TextUtil.textTitle(context, phone1),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Util.callPhone(phone1);
                   },
                 ),
                 FlatButton(
-                  child: textTitle(phone2),
+                  child: TextUtil.textTitle(context, phone2),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Util.callPhone(phone2);
@@ -86,14 +108,25 @@ class _FieldsTabState extends State<FieldsTab> {
     );
   }
 
-  priceAVG(String price, String priceMax) {
-    String count = Const.threeDot;
-    if (price.isNotEmpty && price.isEmpty) count = price;
-    if (price.isNotEmpty && price.isNotEmpty) count = '$price - $priceMax';
-    return count;
+  _priceAVG(String price, String priceMax) {
+    String _price = Const.threeDot;
+    String _priceMax = Const.threeDot;
+
+    if (price.isNotEmpty) {
+      _price = FlutterMoneyFormatter(amount: double.parse(price))
+          .output
+          .withoutFractionDigits;
+    }
+
+    if (priceMax.isNotEmpty) {
+      _priceMax = FlutterMoneyFormatter(amount: double.parse(priceMax))
+          .output
+          .withoutFractionDigits;
+    }
+    return '$_price ~ $_priceMax';
   }
 
-  phone(String phone, String phone2) {
+  _showPhoneNumber(String phone, String phone2) {
     if (phone2.isEmpty) {
       return phone;
     } else {
@@ -101,23 +134,7 @@ class _FieldsTabState extends State<FieldsTab> {
     }
   }
 
-  Widget textTitle(String text) => Text(text,
-      style: Theme.of(context).textTheme.subhead.apply(fontWeightDelta: 700));
-
-  Widget textContent(String text) => Text(text,
-      style: Theme.of(context)
-          .textTheme
-          .body1
-          .apply(fontFamily: Const.ralewayFont, color: Colors.green[900]));
-
-  Widget textDes(String text) => Text(text,
-      style: Theme.of(context)
-          .textTheme
-          .body1
-          .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900]));
-
-  //column1
-  Widget profileColumn(BuildContext context, SoccerField field) => Row(
+  Widget _fillCard(BuildContext context, SoccerField field) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
@@ -146,7 +163,7 @@ class _FieldsTabState extends State<FieldsTab> {
                   if (field.phone2.isEmpty) {
                     Util.callPhone(field.phone);
                   } else {
-                    selectPhone(context, field.phone, field.phone2);
+                    _selectPhone(context, field.phone, field.phone2);
                   }
                 },
               ),
@@ -159,15 +176,16 @@ class _FieldsTabState extends State<FieldsTab> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                textTitle(field.name),
+                TextUtil.textTitle(context, field.name),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                textContent(phone(field.phone, field.phone2)),
+                TextUtil.textContent(
+                    context, _showPhoneNumber(field.phone, field.phone2)),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                textContent(field.address),
+                TextUtil.textContent(context, field.address),
                 SizedBox(
                   height: Const.size_10,
                 ),
@@ -177,17 +195,20 @@ class _FieldsTabState extends State<FieldsTab> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        textContent(field.amountField.isEmpty
-                            ? Const.threeDot
-                            : field.amountField),
-                        textDes(Const.countField)
+                        TextUtil.textContent(
+                            context,
+                            field.amountField.isEmpty
+                                ? Const.threeDot
+                                : field.amountField),
+                        TextUtil.textDes(context, Const.countField)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        textContent(priceAVG(field.price, field.priceMax)),
-                        textDes(Const.priceAVG)
+                        TextUtil.textContent(
+                            context, _priceAVG(field.price, field.priceMax)),
+                        TextUtil.textDes(context, Const.priceAVG)
                       ],
                     )
                   ],
@@ -198,8 +219,7 @@ class _FieldsTabState extends State<FieldsTab> {
         ],
       );
 
-  //post cards
-  Widget postCard(BuildContext context, SoccerField field) => Card(
+  Widget _postCard(BuildContext context, SoccerField field) => Card(
         margin: const EdgeInsets.only(
             left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
         elevation: 2.0,
@@ -207,96 +227,11 @@ class _FieldsTabState extends State<FieldsTab> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(Const.size_8),
-              child: profileColumn(context, field),
+              child: _fillCard(context, field),
             ),
             SizedBox(
               height: Const.size_5,
             ),
-          ],
-        ),
-      );
-
-  buildFormCity() => new FormField<String>(
-        builder: (FormFieldState<String> state) {
-          return InputDecorator(
-            decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(
-                    left: Const.size_10, right: Const.size_10),
-                labelText: '',
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white))),
-//            isEmpty: _color == '',
-            child: new DropdownButtonHideUnderline(
-              child: new DropdownButton<CityModel>(
-                value: _city,
-                isDense: true,
-                onChanged: (CityModel newValue) {
-                  setState(() {
-                    _city = newValue;
-                    _loadListDistrict(_city);
-                  });
-                },
-                items: _listCity.map((CityModel value) {
-                  return new DropdownMenuItem<CityModel>(
-                    value: value,
-                    child: textDes(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          );
-        },
-      );
-
-  buildFormDistrict() => new FormField<String>(
-        builder: (FormFieldState<String> state) {
-          return InputDecorator(
-            decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(
-                    left: Const.size_10, right: Const.size_10),
-                labelText: '',
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white))),
-//            isEmpty: _color == '',
-            child: new DropdownButtonHideUnderline(
-              child: new DropdownButton<DistrictModel>(
-                value: _district,
-                isDense: true,
-                onChanged: (DistrictModel newValue) {
-                  setState(() {
-                    _district = newValue;
-                  });
-                },
-                items: _listDistrict.map((DistrictModel value) {
-                  return new DropdownMenuItem<DistrictModel>(
-                    value: value,
-                    child: textDes(value.name),
-                  );
-                }).toList(),
-              ),
-            ),
-          );
-        },
-      );
-
-  Widget dropDow() => SizedBox(
-        width: double.infinity,
-        height: Const.size_50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: buildFormCity(),
-            ),
-            SizedBox(
-              width: 0.5,
-              height: Const.size_50,
-              child: const DecoratedBox(
-                decoration: const BoxDecoration(color: Colors.grey),
-              ),
-            ),
-            Expanded(
-              child: buildFormDistrict(),
-            )
           ],
         ),
       );
@@ -319,7 +254,8 @@ class _FieldsTabState extends State<FieldsTab> {
               return SafeArea(
                 child: Column(
                   children: <Widget>[
-                    dropDow(),
+                    Util.filterBox(context, _listCity, _city, _listDistrict,
+                        _district, this, this),
                     SizedBox(
                       height: 0.5,
                       width: double.infinity,
@@ -328,16 +264,16 @@ class _FieldsTabState extends State<FieldsTab> {
                       ),
                     ),
                     Expanded(
-                      child: getList(snapshot).length > 0
+                      child: _getList(snapshot).length > 0
                           ? Scrollbar(
                               child: ListView.builder(
                                   padding: const EdgeInsets.only(top: 8.0),
-                                  itemCount: getList(snapshot).length,
+                                  itemCount: _getList(snapshot).length,
                                   itemBuilder: (context, i) {
                                     return GestureDetector(
                                         onTap: () => print(i),
-                                        child: postCard(
-                                            context, getList(snapshot)[i]));
+                                        child: _postCard(
+                                            context, _getList(snapshot)[i]));
                                   }))
                           : Util.showViewNoData(context),
                     )

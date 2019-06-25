@@ -5,7 +5,7 @@ import 'package:bongdaphui/models/club_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/widget_util.dart';
-import 'package:bongdaphui/utils/text_util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -129,14 +129,14 @@ class _ClubsTabState extends State<ClubsTab>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextUtil.textTitle(context, model.name),
+                WidgetUtil.textTitle(context, model.name),
                 SizedBox(
                   height: Const.size_5,
                 ),
                 Row(
                   children: <Widget>[
-                    TextUtil.textDes(context, Const.captain),
-                    TextUtil.textContent(context, model.caption)
+                    WidgetUtil.textDes(context, Const.captain),
+                    WidgetUtil.textContent(context, model.caption)
                   ],
                   verticalDirection: VerticalDirection.up,
                 ),
@@ -145,7 +145,7 @@ class _ClubsTabState extends State<ClubsTab>
                 ),
                 Row(
                   children: <Widget>[
-                    TextUtil.textDes(context, Const.area),
+                    WidgetUtil.textDes(context, Const.area),
                     Util.getArea(
                         context, _listCity, model.idCity, model.idDistrict)
                   ],
@@ -159,15 +159,15 @@ class _ClubsTabState extends State<ClubsTab>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(context, model.phone),
-                        TextUtil.textDes(context, Const.contact)
+                        WidgetUtil.textContent(context, model.phone),
+                        WidgetUtil.textDes(context, Const.contact)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(context, model.amountPlayer),
-                        TextUtil.textDes(context, Const.countPlayer)
+                        WidgetUtil.textContent(context, model.amountPlayer),
+                        WidgetUtil.textDes(context, Const.countPlayer)
                       ],
                     )
                   ],

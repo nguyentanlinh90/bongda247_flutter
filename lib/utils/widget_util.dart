@@ -1,4 +1,6 @@
 import 'package:bongdaphui/listener/insert_listener.dart';
+import 'package:bongdaphui/listener/select_time_listener.dart';
+import 'package:bongdaphui/listener/select_type_field_listener.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +44,34 @@ class WidgetUtil {
         color: Colors.green[800],
       );
 
+  static Widget buttonChangeTime(
+          BuildContext context, String title, SelectTimeListener listener) =>
+      CustomFlatButton(
+        title: title,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w400,
+        textColor: Colors.white,
+        onPressed: () => _selectDate(context, listener),
+        splashColor: Colors.black12,
+        borderColor: Colors.grey[900],
+        borderWidth: 0.0,
+        color: Colors.green[800],
+      );
+
+  static Future _selectDate(BuildContext context, SelectTimeListener listener) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: new DateTime.now(),
+        firstDate: new DateTime(2016),
+        lastDate: new DateTime(2019));
+    if (picked != null) listener.onSelect(picked.toString());
+  }
+
   static Widget sizeBox10() =>
       SizedBox(width: double.infinity, height: Const.size_10);
+
+  static Widget sizeBox5() =>
+      SizedBox(width: double.infinity, height: Const.size_5);
 
   static Widget dividerGrey() => SizedBox(
         height: 0.5,
@@ -59,5 +87,71 @@ class WidgetUtil {
                 .textTheme
                 .body1
                 .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900])),
+      );
+
+  static Widget textTitle(BuildContext context, String text) => Text(text,
+      style: Theme.of(context).textTheme.subhead.apply(fontWeightDelta: 700));
+
+  static Widget textContent(BuildContext context, String text) => Text(text,
+      style: Theme.of(context).textTheme.subhead.apply(
+          fontFamily: Const.ralewayFont,
+          color: Colors.green[900],
+          fontWeightDelta: 2));
+
+  static Widget textDes(BuildContext context, String text) => Text(text,
+      style: Theme.of(context)
+          .textTheme
+          .body1
+          .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900]));
+
+  static Widget selectTypeField(
+          BuildContext context,
+          bool fivePeople,
+          bool sevenPeople,
+          bool elevenPeople,
+          SelectTypeFieldListener listener) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Checkbox(
+                onChanged: (value) {
+                  listener.onFive(value);
+                },
+                value: fivePeople,
+                activeColor: Colors.green[900],
+              ),
+              WidgetUtil.textContent(context, Const.fivePeoPle),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Checkbox(
+                onChanged: (value) {
+                  listener.onSeven(value);
+                },
+                value: sevenPeople,
+                activeColor: Colors.green[900],
+              ),
+              WidgetUtil.textContent(context, Const.sevenPeoPle),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Checkbox(
+                onChanged: (value) {
+                  listener.onEleven(value);
+                },
+                value: elevenPeople,
+                activeColor: Colors.green[900],
+              ),
+              WidgetUtil.textContent(context, Const.elevenPeoPle),
+            ],
+          ),
+        ],
       );
 }

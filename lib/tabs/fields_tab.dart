@@ -4,7 +4,7 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/soccer_field_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/text_util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -85,19 +85,19 @@ class _FieldsTabState extends State<FieldsTab>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: TextUtil.textContent(context, Const.selectPhone),
+            title: WidgetUtil.textContent(context, Const.selectPhone),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 FlatButton(
-                  child: TextUtil.textTitle(context, phone1),
+                  child: WidgetUtil.textTitle(context, phone1),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Util.callPhone(phone1);
                   },
                 ),
                 FlatButton(
-                  child: TextUtil.textTitle(context, phone2),
+                  child: WidgetUtil.textTitle(context, phone2),
                   onPressed: () {
                     Navigator.of(context).pop();
                     Util.callPhone(phone2);
@@ -177,16 +177,16 @@ class _FieldsTabState extends State<FieldsTab>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextUtil.textTitle(context, field.name),
+                WidgetUtil.textTitle(context, field.name),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                TextUtil.textContent(
+                WidgetUtil.textContent(
                     context, _showPhoneNumber(field.phone, field.phone2)),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                TextUtil.textContent(context, field.address),
+                WidgetUtil.textContent(context, field.address),
                 SizedBox(
                   height: Const.size_10,
                 ),
@@ -196,20 +196,20 @@ class _FieldsTabState extends State<FieldsTab>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(
+                        WidgetUtil.textContent(
                             context,
                             field.amountField.isEmpty
                                 ? Const.threeDot
                                 : field.amountField),
-                        TextUtil.textDes(context, Const.countField)
+                        WidgetUtil.textDes(context, Const.countField)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(
+                        WidgetUtil.textContent(
                             context, _priceAVG(field.price, field.priceMax)),
-                        TextUtil.textDes(context, Const.priceAVG)
+                        WidgetUtil.textDes(context, Const.priceAVG)
                       ],
                     )
                   ],

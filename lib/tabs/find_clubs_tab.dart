@@ -4,7 +4,7 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/schedule_club_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/text_util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -117,14 +117,14 @@ class _FindClubsTabState extends State<FindClubsTab>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextUtil.textTitle(context, model.nameClub),
+                WidgetUtil.textTitle(context, model.nameClub),
                 SizedBox(
                   height: Const.size_5,
                 ),
                 Row(
                   children: <Widget>[
-                    TextUtil.textDes(context, Const.contact_),
-                    TextUtil.textContent(context, model.phone),
+                    WidgetUtil.textDes(context, Const.contact_),
+                    WidgetUtil.textContent(context, model.phone),
                   ],
                 ),
                 SizedBox(
@@ -132,8 +132,8 @@ class _FindClubsTabState extends State<FindClubsTab>
                 ),
                 Row(
                   children: <Widget>[
-                    TextUtil.textDes(context, Const.typeField),
-                    TextUtil.textContent(context, model.typeField),
+                    WidgetUtil.textDes(context, Const.typeField),
+                    WidgetUtil.textContent(context, model.typeField),
                   ],
                 ),
                 SizedBox(
@@ -141,7 +141,7 @@ class _FindClubsTabState extends State<FindClubsTab>
                 ),
                 Row(
                   children: <Widget>[
-                    TextUtil.textDes(context, Const.area),
+                    WidgetUtil.textDes(context, Const.area),
                     Util.getArea(
                         context, _listCity, model.idCity, model.idDistrict)
                   ],
@@ -155,15 +155,15 @@ class _FindClubsTabState extends State<FindClubsTab>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(context, model.startTime),
-                        TextUtil.textDes(context, Const.start)
+                        WidgetUtil.textContent(context, model.startTime),
+                        WidgetUtil.textDes(context, Const.start)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextUtil.textContent(context, model.endTime),
-                        TextUtil.textDes(context, Const.end)
+                        WidgetUtil.textContent(context, model.endTime),
+                        WidgetUtil.textDes(context, Const.end)
                       ],
                     )
                   ],

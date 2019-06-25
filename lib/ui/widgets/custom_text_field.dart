@@ -1,3 +1,4 @@
+import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -41,7 +42,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: currentColor, width: 1.0),
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -64,7 +65,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           decoration: InputDecoration(
             hintStyle: TextStyle(
               color: widget.baseColor,
-              fontFamily: "OpenSans",
+              fontFamily: Const.openSansFont,
               fontWeight: FontWeight.w300,
             ),
             border: InputBorder.none,

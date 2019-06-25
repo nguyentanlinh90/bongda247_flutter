@@ -6,7 +6,7 @@ import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/text_util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +61,7 @@ class Util {
                 items: _listCity.map((CityModel value) {
                   return new DropdownMenuItem<CityModel>(
                     value: value,
-                    child: TextUtil.textDes(context, value.name),
+                    child: WidgetUtil.textDes(context, value.name),
                   );
                 }).toList(),
               ),
@@ -95,7 +95,7 @@ class Util {
                 items: _listDistrict.map((DistrictModel value) {
                   return new DropdownMenuItem<DistrictModel>(
                     value: value,
-                    child: TextUtil.textDes(context, value.name),
+                    child: WidgetUtil.textDes(context, value.name),
                   );
                 }).toList(),
               ),
@@ -116,6 +116,7 @@ class Util {
         width: double.infinity,
         height: Const.size_50,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: buildFormCity(context, _listCity, _city, cityListener),
@@ -150,7 +151,7 @@ class Util {
         }
       }
     }
-    return TextUtil.textContent(context, area);
+    return WidgetUtil.textContent(context, area);
   }
 
 }

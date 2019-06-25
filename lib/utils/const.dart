@@ -29,6 +29,9 @@ class Const {
   static const String contact = "Liên hệ";
   static const String contact_ = "Liên hệ:  ";
   static const String typeField = "Loại sân:  ";
+  static const String fivePeoPle = "5 người";
+  static const String sevenPeoPle = "7 người";
+  static const String elevenPeoPle = "11 người";
   static const String countPlayer = "Số cầu thủ";
   static const String captain = "Đội trưởng:  ";
   static const String area = "Khu vực:  ";
@@ -37,6 +40,11 @@ class Const {
   static const String phoneNumber = "Số điện thoại";
   static const String insertSchedule = "Thêm lịch";
   static const String noData = "Không có dữ liệu";
+  static const String timeSlot = "Khung giờ";
+  static const String timeSlotStart = "Khung giờ bắt đầu";
+  static const String timeSlotEnd = "Khung giờ kết thúc";
+  static const String change = "Thay đổi";
+  static const String choose = "Chọn";
 
   //colors
   static List<Color> kitGradients = [

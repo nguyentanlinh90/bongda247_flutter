@@ -24,14 +24,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-  firebase_auth:
-  flutter_facebook_login:
-  cloud_firestore:
-  flutter_swiper:
-  shared_preferences:
-  bmnav:
-  url_launcher:
-  flutter_money_formatter:
+  firebase_auth: ^0.11.1+7
+  flutter_facebook_login: ^2.0.1
+  cloud_firestore: ^0.12.5+2
+  flutter_swiper: ^1.1.6
+  shared_preferences: ^0.5.3+1
+  bmnav: ^0.3.4
+  url_launcher: ^5.0.3
+  flutter_money_formatter: ^0.8.2
 
 dev_dependencies:
   flutter_test:

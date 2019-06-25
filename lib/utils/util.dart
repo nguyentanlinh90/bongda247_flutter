@@ -156,4 +156,22 @@ class Util {
           ],
         ),
       );
+
+  static Widget getArea(BuildContext context, List<CityModel> _listCity,
+      String idCity, String idDistrict) {
+    String area = '';
+    for (int i = 0; i < _listCity.length; i++) {
+      if (idCity == _listCity[i].id) {
+        List modelList = _listCity[i].districts;
+        List<DistrictModel> _listDistrict =
+            modelList.map((m) => new DistrictModel.fromJson(m)).toList();
+        for (int j = 0; j < _listDistrict.length; j++) {
+          if (idDistrict == _listDistrict[j].id) {
+            area = '${_listDistrict[j].name}, ${_listCity[i].name}';
+          }
+        }
+      }
+    }
+    return TextUtil.textContent(context, area);
+  }
 }

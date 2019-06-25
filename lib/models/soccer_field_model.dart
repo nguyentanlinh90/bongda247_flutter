@@ -1,4 +1,4 @@
-class SoccerField {
+class SoccerFieldModel {
 //  String id;
   String address;
   String amountField;
@@ -15,7 +15,7 @@ class SoccerField {
   String priceMax;
   String rating;
 
-  SoccerField.fromJson(var value) {
+  SoccerFieldModel.fromJson(var value) {
 //    this.id = value['id'];
     this.address = value['address'];
     this.amountField = value['amountField'];

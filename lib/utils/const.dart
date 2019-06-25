@@ -20,6 +20,11 @@ class Const {
   static const String selectPhone = "Chọn số để gọi";
   static const String cancel = "Huỷ";
   static const String call = "Gọi";
+  static const String end = "Kết thúc";
+  static const String contact = "Liên hệ";
+  static const String countPlayer = "Số cầu thủ";
+  static const String captain = "Đội trưởng:  ";
+  static const String area = "Khu vực:  ";
 
   //colors
   static List<Color> kitGradients = [
@@ -62,4 +67,7 @@ class Const {
   //FireBase Collection
   static const String tutorialCollection = "tutorial";
   static const String fieldsCollection = "fields";
+  static const String schedulePlayerCollection = "schedule_player";
+  static const String scheduleClubCollection = "schedule_club";
+  static const String clubCollection = "dev_clubs";
 }

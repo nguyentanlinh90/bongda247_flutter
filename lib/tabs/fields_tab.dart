@@ -64,10 +64,10 @@ class _FieldsTabState extends State<FieldsTab>
     });
   }
 
-  List<SoccerField> _getList(AsyncSnapshot dataSnapshot) {
-    List<SoccerField> list = new List();
+  List<SoccerFieldModel> _getList(AsyncSnapshot dataSnapshot) {
+    List<SoccerFieldModel> list = new List();
     for (var value in dataSnapshot.data.documents) {
-      SoccerField soccerField = new SoccerField.fromJson(value);
+      SoccerFieldModel soccerField = new SoccerFieldModel.fromJson(value);
       if (_city.id == soccerField.idCity &&
           ('0' == _district.id || _district.id == soccerField.idDistrict)) {
         list.add(soccerField);
@@ -134,7 +134,7 @@ class _FieldsTabState extends State<FieldsTab>
     }
   }
 
-  Widget _fillCard(BuildContext context, SoccerField field) => Row(
+  Widget _fillCard(BuildContext context, SoccerFieldModel field) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
@@ -219,7 +219,7 @@ class _FieldsTabState extends State<FieldsTab>
         ],
       );
 
-  Widget _postCard(BuildContext context, SoccerField field) => Card(
+  Widget _postCard(BuildContext context, SoccerFieldModel field) => Card(
         margin: const EdgeInsets.only(
             left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
         elevation: 2.0,

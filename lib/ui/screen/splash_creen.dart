@@ -3,7 +3,7 @@ import 'package:bongdaphui/ui/screen/home_screen.dart';
 import 'package:bongdaphui/ui/screen/tutorial_screen.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/shared_preferences.dart';
-import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: new Container(
         child: Stack(
           children: <Widget>[
-            Center(child: Util.showLogo()),
+            Center(child: WidgetUtil.showLogo()),
             _handleCurrentScreen()
           ],
         ),

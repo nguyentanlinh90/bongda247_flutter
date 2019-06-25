@@ -1,6 +1,6 @@
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:flutter/material.dart';
 
 class SignInSignUpScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class SignInSignUpScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Util.showLogo(),
+            WidgetUtil.showLogo(),
             Padding(
               padding: const EdgeInsets.only(top: 35.0),
               child: Text(

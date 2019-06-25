@@ -12,18 +12,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 
 class Util {
-  static Widget showLogo() {
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Container(
-            width: 200,
-            height: 200,
-            child: new Image.asset(Const.icSplash),
-          )
-        ]);
-  }
-
   static callPhone(String phone) {
     launch("tel://$phone");
   }
@@ -49,16 +37,6 @@ class Util {
       }
     }
     return districtList;
-  }
-
-  static Widget showViewNoData(BuildContext context) {
-    return new Center(
-      child: Text('Chưa có dữ liệu',
-          style: Theme.of(context)
-              .textTheme
-              .body1
-              .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900])),
-    );
   }
 
   static buildFormCity(BuildContext context, List<CityModel> _listCity,
@@ -174,4 +152,5 @@ class Util {
     }
     return TextUtil.textContent(context, area);
   }
+
 }

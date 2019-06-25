@@ -4,6 +4,7 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/club_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/text_util.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -232,7 +233,7 @@ class _ClubsTabState extends State<ClubsTab>
                                         child: _postCard(
                                             context, _getList(snapshot)[i]));
                                   }))
-                          : Util.showViewNoData(context),
+                          : WidgetUtil.showViewNoData(context),
                     )
                   ],
                 ),

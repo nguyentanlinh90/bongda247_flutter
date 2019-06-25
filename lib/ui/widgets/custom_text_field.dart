@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       elevation: 0.0,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: currentColor, width: 2.0),
+        side: BorderSide(color: currentColor, width: 1.0),
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Padding(
@@ -58,7 +58,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 currentColor = widget.baseColor;
               }
             });
-          }, 
+          },
           //keyboardType: widget.inputType,
           controller: widget.controller,
           decoration: InputDecoration(

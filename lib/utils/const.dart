@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Const {
+  //check mode
+  static const bool kReleaseMode =
+      bool.fromEnvironment('dart.vm.product', defaultValue: false);
+
   //routes
   static const String rootRoute = "/root";
   static const String mainRoute = "/main";
   static const String welcomeRoute = "/welcome";
   static const String signInRoute = "/signin";
   static const String signUpRoute = "/signup";
+  static const String insertSchedulePlayerRoute = "/insertSchedulePlayer";
 
   //strings
   static const String appName = "Bóng Đá Phủi";
@@ -22,9 +27,16 @@ class Const {
   static const String call = "Gọi";
   static const String end = "Kết thúc";
   static const String contact = "Liên hệ";
+  static const String contact_ = "Liên hệ:  ";
+  static const String typeField = "Loại sân:  ";
   static const String countPlayer = "Số cầu thủ";
   static const String captain = "Đội trưởng:  ";
   static const String area = "Khu vực:  ";
+  static const String insertSchedulePlayer = "Thêm lịch đá cho bạn";
+  static const String fullName = "Họ và tên";
+  static const String phoneNumber = "Số điện thoại";
+  static const String insertSchedule = "Thêm lịch";
+  static const String noData = "Không có dữ liệu";
 
   //colors
   static List<Color> kitGradients = [
@@ -52,6 +64,7 @@ class Const {
   static const double size_5 = 5.0;
   static const double size_8 = 8.0;
   static const double size_10 = 10.0;
+  static const double size_12 = 12.0;
   static const double size_15 = 15.0;
   static const double size_20 = 20.0;
   static const double size_30 = 30.0;
@@ -66,8 +79,10 @@ class Const {
 
   //FireBase Collection
   static const String tutorialCollection = "tutorial";
-  static const String fieldsCollection = "fields";
-  static const String schedulePlayerCollection = "schedule_player";
-  static const String scheduleClubCollection = "schedule_club";
-  static const String clubCollection = "dev_clubs";
+  static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
+  static const String schedulePlayerCollection =
+      kReleaseMode ? "schedule_player" : "dev_schedule_player";
+  static const String scheduleClubCollection =
+      kReleaseMode ? "schedule_club" : "dev_schedule_club";
+  static const String clubCollection = kReleaseMode ? "clubs" : "dev_clubs";
 }

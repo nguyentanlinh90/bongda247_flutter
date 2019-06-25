@@ -6,6 +6,7 @@ import 'package:bongdaphui/models/schedule_player_model.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/text_util.dart';
 import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -120,16 +121,31 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                 SizedBox(
                   height: Const.size_5,
                 ),
-                TextUtil.textContent(context, model.phonePlayer),
+                Row(
+                  children: <Widget>[
+                    TextUtil.textDes(context, Const.contact_),
+                    TextUtil.textContent(context, model.phonePlayer),
+                  ],
+                ),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                TextUtil.textContent(context, model.typeField),
+                Row(
+                  children: <Widget>[
+                    TextUtil.textDes(context, Const.typeField),
+                    TextUtil.textContent(context, model.typeField),
+                  ],
+                ),
                 SizedBox(
                   height: Const.size_5,
                 ),
-                Util.getArea(
-                    context, _listCity, model.idCity, model.idDistrict),
+                Row(
+                  children: <Widget>[
+                    TextUtil.textDes(context, Const.area),
+                    Util.getArea(
+                        context, _listCity, model.idCity, model.idDistrict)
+                  ],
+                ),
                 SizedBox(
                   height: Const.size_10,
                 ),
@@ -179,6 +195,13 @@ class _FindPlayersTabState extends State<FindPlayersTab>
   Widget build(BuildContext context) {
     if (_listCity.length > 0 && _listDistrict.length > 0) {
       return new Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute);
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green[900],
+        ),
         backgroundColor: Colors.white,
         body: StreamBuilder(
             stream: Firestore.instance
@@ -214,7 +237,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                                         child: _postCard(
                                             context, _getList(snapshot)[i]));
                                   }))
-                          : Util.showViewNoData(context),
+                          : WidgetUtil.showViewNoData(context),
                     )
                   ],
                 ),

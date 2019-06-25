@@ -2,7 +2,7 @@ import 'package:bongdaphui/models/tutorial_model.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/shared_preferences.dart';
-import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
 
@@ -97,7 +97,7 @@ class TutorialScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Util.showLogo(),
+              WidgetUtil.showLogo(),
               Padding(
                 padding: const EdgeInsets.only(
                     top: Const.size_20,

@@ -4,16 +4,11 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/soccer_field_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
-
-void main() {
-  runApp(FieldsTab());
-}
 
 class FieldsTab extends StatefulWidget {
   @override
@@ -51,7 +46,7 @@ class _FieldsTabState extends State<FieldsTab>
   }
 
   _loadListCity() async {
-    _listCity = await Util.loadCity();
+    _listCity = await Utils.loadCity();
     setState(() {
       _city = _listCity[0];
       _loadListDistrict(_city);
@@ -59,7 +54,7 @@ class _FieldsTabState extends State<FieldsTab>
   }
 
   _loadListDistrict(CityModel cityModel) async {
-    _listDistrict = await Util.loadDistrict(cityModel.id);
+    _listDistrict = await Utils.loadDistrict(cityModel.id);
     setState(() {
       _district = _listDistrict[0];
     });
@@ -93,14 +88,14 @@ class _FieldsTabState extends State<FieldsTab>
                   child: WidgetUtil.textTitle(context, phone1),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Util.callPhone(phone1);
+                    Utils.callPhone(phone1);
                   },
                 ),
                 FlatButton(
                   child: WidgetUtil.textTitle(context, phone2),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Util.callPhone(phone2);
+                    Utils.callPhone(phone2);
                   },
                 )
               ],
@@ -162,7 +157,7 @@ class _FieldsTabState extends State<FieldsTab>
                 ),
                 onPressed: () {
                   if (field.phone2.isEmpty) {
-                    Util.callPhone(field.phone);
+                    Utils.callPhone(field.phone);
                   } else {
                     _selectPhone(context, field.phone, field.phone2);
                   }
@@ -201,7 +196,7 @@ class _FieldsTabState extends State<FieldsTab>
                             field.amountField.isEmpty
                                 ? Const.threeDot
                                 : field.amountField),
-                        WidgetUtil.textDes(context, Const.countField)
+                        WidgetUtil.textBody1Grey(context, Const.countField)
                       ],
                     ),
                     Column(
@@ -209,7 +204,7 @@ class _FieldsTabState extends State<FieldsTab>
                       children: <Widget>[
                         WidgetUtil.textContent(
                             context, _priceAVG(field.price, field.priceMax)),
-                        WidgetUtil.textDes(context, Const.priceAVG)
+                        WidgetUtil.textBody1Grey(context, Const.priceAVG)
                       ],
                     )
                   ],
@@ -255,7 +250,7 @@ class _FieldsTabState extends State<FieldsTab>
               return SafeArea(
                 child: Column(
                   children: <Widget>[
-                    Util.filterBox(context, _listCity, _city, _listDistrict,
+                    Utils.filterBox(context, _listCity, _city, _listDistrict,
                         _district, this, this),
                     SizedBox(
                       height: 0.5,

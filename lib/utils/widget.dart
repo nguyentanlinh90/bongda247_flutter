@@ -1,5 +1,6 @@
 import 'package:bongdaphui/listener/insert_listener.dart';
-import 'package:bongdaphui/listener/select_time_listener.dart';
+import 'package:bongdaphui/listener/select_time_end_listener.dart';
+import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
@@ -44,34 +45,59 @@ class WidgetUtil {
         color: Colors.green[800],
       );
 
-  static Widget buttonChangeTime(
-          BuildContext context, String title, SelectTimeListener listener) =>
+  static Widget buttonSelectStartTime(BuildContext context, String title,
+          SelectTimeStartListener listener) =>
       CustomFlatButton(
         title: title,
         fontSize: 18.0,
         fontWeight: FontWeight.w400,
         textColor: Colors.white,
-        onPressed: () => _selectDate(context, listener),
+        onPressed: () => _selectStartDate(context, listener),
         splashColor: Colors.black12,
         borderColor: Colors.grey[900],
         borderWidth: 0.0,
         color: Colors.green[800],
       );
 
-  static Future _selectDate(BuildContext context, SelectTimeListener listener) async {
+  static Future _selectStartDate(
+      BuildContext context, SelectTimeStartListener listener) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: new DateTime.now().subtract(new Duration(days: 30)),
+        lastDate: new DateTime.now().add(new Duration(days: 30)));
+    if (picked != null) listener.onTimeStartSelect(picked.toString());
+  }
+
+  static Widget buttonSelectEndTime(
+          BuildContext context, String title, SelectTimeEndListener listener) =>
+      CustomFlatButton(
+        title: title,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w400,
+        textColor: Colors.white,
+        onPressed: () => _selectEndDate(context, listener),
+        splashColor: Colors.black12,
+        borderColor: Colors.grey[900],
+        borderWidth: 0.0,
+        color: Colors.green[800],
+      );
+
+  static Future _selectEndDate(
+      BuildContext context, SelectTimeEndListener listener) async {
     DateTime picked = await showDatePicker(
         context: context,
         initialDate: new DateTime.now(),
         firstDate: new DateTime(2016),
         lastDate: new DateTime(2019));
-    if (picked != null) listener.onSelect(picked.toString());
+    if (picked != null) listener.onTimeEndSelect(picked.toString());
   }
 
-  static Widget sizeBox10() =>
-      SizedBox(width: double.infinity, height: Const.size_10);
+  static Widget sizeBox20() => SizedBox(height: Const.size_20);
 
-  static Widget sizeBox5() =>
-      SizedBox(width: double.infinity, height: Const.size_5);
+  static Widget sizeBox10() => SizedBox(height: Const.size_10);
+
+  static Widget sizeBox5() => SizedBox(height: Const.size_5);
 
   static Widget dividerGrey() => SizedBox(
         height: 0.5,
@@ -98,11 +124,17 @@ class WidgetUtil {
           color: Colors.green[900],
           fontWeightDelta: 2));
 
-  static Widget textDes(BuildContext context, String text) => Text(text,
+  static Widget textBody1Grey(BuildContext context, String text) => Text(text,
       style: Theme.of(context)
           .textTheme
           .body1
           .apply(fontFamily: Const.ralewayFont, color: Colors.grey[900]));
+
+  static Widget textBody1Red(BuildContext context, String text) => Text(text,
+      style: Theme.of(context)
+          .textTheme
+          .body1
+          .apply(fontFamily: Const.ralewayFont, color: Colors.red[900]));
 
   static Widget selectTypeField(
           BuildContext context,

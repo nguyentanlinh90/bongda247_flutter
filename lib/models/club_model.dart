@@ -1,5 +1,3 @@
-import 'dart:async' show Future;
-
 class ClubModel {
   final String id;
   final String idCaptain;

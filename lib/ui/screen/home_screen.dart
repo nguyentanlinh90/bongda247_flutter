@@ -7,14 +7,6 @@ import 'package:bongdaphui/tabs/find_players_tab.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(new MaterialApp(
-      // Title
-      title: "Using Tabs",
-      // Home
-      home: new HomeScreen()));
-}
-
 class HomeScreen extends StatefulWidget {
   @override
   HomeScreenState createState() => new HomeScreenState();

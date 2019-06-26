@@ -32,6 +32,7 @@ dependencies:
   bmnav: ^0.3.4
   url_launcher: ^5.0.3
   flutter_money_formatter: ^0.8.2
+  datetime_picker_formfield: ^0.1.1
 
 dev_dependencies:
   flutter_test:

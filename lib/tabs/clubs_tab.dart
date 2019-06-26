@@ -4,15 +4,10 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/club_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(ClubsTab());
-}
 
 class ClubsTab extends StatefulWidget {
   @override
@@ -50,7 +45,7 @@ class _ClubsTabState extends State<ClubsTab>
   }
 
   _loadListCity() async {
-    _listCity = await Util.loadCity();
+    _listCity = await Utils.loadCity();
     setState(() {
       _city = _listCity[0];
       _loadListDistrict(_city);
@@ -58,7 +53,7 @@ class _ClubsTabState extends State<ClubsTab>
   }
 
   _loadListDistrict(CityModel cityModel) async {
-    _listDistrict = await Util.loadDistrict(cityModel.id);
+    _listDistrict = await Utils.loadDistrict(cityModel.id);
     setState(() {
       _district = _listDistrict[0];
     });
@@ -117,7 +112,7 @@ class _ClubsTabState extends State<ClubsTab>
                   size: Const.size_35,
                 ),
                 onPressed: () {
-                  Util.callPhone(model.phone);
+                  Utils.callPhone(model.phone);
                 },
               ),
             ],
@@ -135,7 +130,7 @@ class _ClubsTabState extends State<ClubsTab>
                 ),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textDes(context, Const.captain),
+                    WidgetUtil.textBody1Grey(context, Const.captain),
                     WidgetUtil.textContent(context, model.caption)
                   ],
                   verticalDirection: VerticalDirection.up,
@@ -145,8 +140,8 @@ class _ClubsTabState extends State<ClubsTab>
                 ),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textDes(context, Const.area),
-                    Util.getArea(
+                    WidgetUtil.textBody1Grey(context, Const.area),
+                    Utils.getArea(
                         context, _listCity, model.idCity, model.idDistrict)
                   ],
                 ),
@@ -160,14 +155,14 @@ class _ClubsTabState extends State<ClubsTab>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         WidgetUtil.textContent(context, model.phone),
-                        WidgetUtil.textDes(context, Const.contact)
+                        WidgetUtil.textBody1Grey(context, Const.contact)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         WidgetUtil.textContent(context, model.amountPlayer),
-                        WidgetUtil.textDes(context, Const.countPlayer)
+                        WidgetUtil.textBody1Grey(context, Const.countPlayer)
                       ],
                     )
                   ],
@@ -212,7 +207,7 @@ class _ClubsTabState extends State<ClubsTab>
               return SafeArea(
                 child: Column(
                   children: <Widget>[
-                    Util.filterBox(context, _listCity, _city, _listDistrict,
+                    Utils.filterBox(context, _listCity, _city, _listDistrict,
                         _district, this, this),
                     SizedBox(
                       height: 0.5,

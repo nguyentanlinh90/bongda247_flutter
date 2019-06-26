@@ -35,16 +35,20 @@ class Const {
   static const String countPlayer = "Số cầu thủ";
   static const String captain = "Đội trưởng:  ";
   static const String area = "Khu vực:  ";
-  static const String insertSchedulePlayer = "Thêm lịch đá cho bạn";
-  static const String fullName = "Họ và tên";
+  static const String insertSchedulePlayer = "Thêm lịch đá muốn thi đấu";
+  static const String fullName = "Tên của bạn";
+  static const String nameClub = "Tên đội bóng";
   static const String phoneNumber = "Số điện thoại";
   static const String insertSchedule = "Thêm lịch";
   static const String noData = "Không có dữ liệu";
-  static const String timeSlot = "Khung giờ";
+  static const String timeSlot = "Khung thời gian đá được: ";
+  static const String timeNote = "(* Giờ kết thúc phải lớn hơn giờ băt đầu)";
   static const String timeSlotStart = "Khung giờ bắt đầu";
   static const String timeSlotEnd = "Khung giờ kết thúc";
   static const String change = "Thay đổi";
   static const String choose = "Chọn";
+  static const String from = "Từ:";
+  static const String to = "Đến:";
 
   //colors
   static List<Color> kitGradients = [

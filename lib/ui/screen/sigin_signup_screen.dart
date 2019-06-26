@@ -1,6 +1,6 @@
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 
 class SignInSignUpScreen extends StatelessWidget {

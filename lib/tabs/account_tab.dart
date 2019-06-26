@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:bongdaphui/ui/screen/sigin_signup_screen.dart';
-
-void main() {
-  runApp(AccountTab());
-}
+import 'package:flutter/material.dart';
 
 class AccountTab extends StatefulWidget {
   @override

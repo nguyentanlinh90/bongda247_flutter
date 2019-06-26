@@ -6,12 +6,12 @@ import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 
-class Util {
+class Utils {
   static callPhone(String phone) {
     launch("tel://$phone");
   }
@@ -45,12 +45,9 @@ class Util {
         builder: (FormFieldState<String> state) {
           return InputDecorator(
             decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(
-                    left: Const.size_10, right: Const.size_10),
-                labelText: '',
+                contentPadding: const EdgeInsets.symmetric(horizontal: Const.size_10),
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white))),
-//            isEmpty: _color == '',
             child: new DropdownButtonHideUnderline(
               child: new DropdownButton<CityModel>(
                 value: _city,
@@ -61,7 +58,7 @@ class Util {
                 items: _listCity.map((CityModel value) {
                   return new DropdownMenuItem<CityModel>(
                     value: value,
-                    child: WidgetUtil.textDes(context, value.name),
+                    child: WidgetUtil.textBody1Grey(context, value.name),
                   );
                 }).toList(),
               ),
@@ -81,7 +78,6 @@ class Util {
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(
                     left: Const.size_10, right: Const.size_10),
-                labelText: '',
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white))),
 //            isEmpty: _color == '',
@@ -95,7 +91,7 @@ class Util {
                 items: _listDistrict.map((DistrictModel value) {
                   return new DropdownMenuItem<DistrictModel>(
                     value: value,
-                    child: WidgetUtil.textDes(context, value.name),
+                    child: WidgetUtil.textBody1Grey(context, value.name),
                   );
                 }).toList(),
               ),
@@ -116,7 +112,7 @@ class Util {
         width: double.infinity,
         height: Const.size_50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
               child: buildFormCity(context, _listCity, _city, cityListener),

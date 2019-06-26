@@ -2,11 +2,9 @@ import 'package:bongdaphui/models/tutorial_model.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/shared_preferences.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
-
-void main() => runApp(new TutorialScreen());
 
 // ignore: must_be_immutable
 class TutorialScreen extends StatelessWidget {
@@ -14,11 +12,6 @@ class TutorialScreen extends StatelessWidget {
 
   TutorialScreen({Key key, this.list}) : super(key: key);
 
-//  @override
-//  State<StatefulWidget> createState() => new _TutorialScreenState();
-//}
-//
-//class _TutorialScreenState extends State<TutorialScreen> {
   Size deviceSize;
 
   List<Widget> _getPages(BuildContext context) {

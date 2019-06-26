@@ -3,15 +3,12 @@ import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/schedule_player_model.dart';
+import 'package:bongdaphui/models/screen_arguments.dart';
 import 'package:bongdaphui/utils/const.dart';
-import 'package:bongdaphui/utils/widget_util.dart';
 import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(FindPlayersTab());
-}
 
 class FindPlayersTab extends StatefulWidget {
   @override
@@ -49,7 +46,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
   }
 
   _loadListCity() async {
-    _listCity = await Util.loadCity();
+    _listCity = await Utils.loadCity();
     setState(() {
       _city = _listCity[0];
       _loadListDistrict(_city);
@@ -57,7 +54,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
   }
 
   _loadListDistrict(CityModel cityModel) async {
-    _listDistrict = await Util.loadDistrict(cityModel.id);
+    _listDistrict = await Utils.loadDistrict(cityModel.id);
     setState(() {
       _district = _listDistrict[0];
     });
@@ -104,7 +101,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                   size: Const.size_35,
                 ),
                 onPressed: () {
-                  Util.callPhone(model.phonePlayer);
+                  Utils.callPhone(model.phonePlayer);
                 },
               ),
             ],
@@ -122,7 +119,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                 ),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textDes(context, Const.contact_),
+                    WidgetUtil.textBody1Grey(context, Const.contact_),
                     WidgetUtil.textContent(context, model.phonePlayer),
                   ],
                 ),
@@ -131,7 +128,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                 ),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textDes(context, Const.typeField),
+                    WidgetUtil.textBody1Grey(context, Const.typeField),
                     WidgetUtil.textContent(context, model.typeField),
                   ],
                 ),
@@ -140,8 +137,8 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                 ),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textDes(context, Const.area),
-                    Util.getArea(
+                    WidgetUtil.textBody1Grey(context, Const.area),
+                    Utils.getArea(
                         context, _listCity, model.idCity, model.idDistrict)
                   ],
                 ),
@@ -155,14 +152,14 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         WidgetUtil.textContent(context, model.startTime),
-                        WidgetUtil.textDes(context, Const.start)
+                        WidgetUtil.textBody1Grey(context, Const.start)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         WidgetUtil.textContent(context, model.endTime),
-                        WidgetUtil.textDes(context, Const.end)
+                        WidgetUtil.textBody1Grey(context, Const.end)
                       ],
                     )
                   ],
@@ -196,7 +193,8 @@ class _FindPlayersTabState extends State<FindPlayersTab>
       return new Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute);
+            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute,
+                arguments: ScreenArguments(true, false));
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.green[900],
@@ -215,7 +213,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
               return SafeArea(
                 child: Column(
                   children: <Widget>[
-                    Util.filterBox(context, _listCity, _city, _listDistrict,
+                    Utils.filterBox(context, _listCity, _city, _listDistrict,
                         _district, this, this),
                     SizedBox(
                       height: 0.5,

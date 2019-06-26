@@ -9,6 +9,7 @@ class DateTimePicker extends StatelessWidget {
   const DateTimePicker({
     Key key,
     this.labelText,
+    this.firstDate,
     this.selectedDate,
     this.selectedTime,
     this.selectDate,
@@ -16,6 +17,7 @@ class DateTimePicker extends StatelessWidget {
   }) : super(key: key);
 
   final String labelText;
+  final DateTime firstDate;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
   final ValueChanged<DateTime> selectDate;
@@ -25,8 +27,10 @@ class DateTimePicker extends StatelessWidget {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+      firstDate: Const.from == labelText
+          ? DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day)
+          : firstDate,
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != selectedDate) selectDate(picked);
@@ -72,7 +76,6 @@ class DateTimePicker extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: Const.size_10),
                         child: InputDropdown(
-//            labelText: labelText,
                           valueText:
                               '${DateTimeUtil.getDayOfWeek(selectedDate)},  ${DateFormat(FormatDate.ddMMyyyy.toString()).format(selectedDate)}',
                           valueStyle: valueStyle,
@@ -95,7 +98,6 @@ class DateTimePicker extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: Const.size_10),
                         child: InputDropdown(
-//            valueText: selectedTime.format(context),
                           valueText: selectedTime.format(context),
                           valueStyle: valueStyle,
                           onPressed: () {

@@ -49,9 +49,10 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
 
   DateTime _fromDate = DateTime.now();
   TimeOfDay _fromTime = TimeOfDay.now();
-  DateTime _toDate = DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
-  TimeOfDay _toTime = TimeOfDay.now();
+
+  DateTime _toDate = DateTime.now();
+  TimeOfDay _toTime =
+      TimeOfDay(hour: DateTime.now().hour + 2, minute: DateTime.now().minute);
 
   _getArgs(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
@@ -154,21 +155,18 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
   @override
   void onInsert() {}
 
-  _widgetTimeSlot() => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          WidgetUtil.textBody1Grey(context, Const.timeSlot),
-          Flexible(child: WidgetUtil.textBody1Red(context, Const.timeNote))
-        ],
-      );
-
   _widgetTimeFrom() => DateTimePicker(
         labelText: Const.from,
+        firstDate: _fromDate,
         selectedDate: _fromDate,
         selectedTime: _fromTime,
         selectDate: (DateTime date) {
           setState(() {
             _fromDate = date;
+            if (_toDate.millisecondsSinceEpoch <
+                _fromDate.millisecondsSinceEpoch) {
+              _toDate = _fromDate;
+            }
           });
         },
         selectTime: (TimeOfDay time) {
@@ -180,6 +178,7 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
 
   _widgetTimeTo() => DateTimePicker(
         labelText: Const.to,
+        firstDate: _fromDate,
         selectedDate: _toDate,
         selectedTime: _toTime,
         selectDate: (DateTime date) {
@@ -208,7 +207,7 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
               WidgetUtil.sizeBox10(),
               _phoneField,
               WidgetUtil.sizeBox10(),
-              _widgetTimeSlot(),
+              WidgetUtil.textBody1Grey(context, Const.timeSlot),
               WidgetUtil.sizeBox5(),
               _widgetTimeFrom(),
               _widgetTimeTo(),

@@ -3,6 +3,7 @@ import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/schedule_club_model.dart';
+import 'package:bongdaphui/models/screen_arguments.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
@@ -190,6 +191,14 @@ class _FindClubsTabState extends State<FindClubsTab>
   Widget build(BuildContext context) {
     if (_listCity.length > 0 && _listDistrict.length > 0) {
       return new Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute,
+                arguments: ScreenArguments(false, false));
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green[900],
+        ),
         backgroundColor: Colors.white,
         body: StreamBuilder(
             stream: Firestore.instance

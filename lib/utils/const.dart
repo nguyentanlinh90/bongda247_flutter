@@ -36,9 +36,13 @@ class Const {
   static const String captain = "Đội trưởng:  ";
   static const String area = "Khu vực:  ";
   static const String insertSchedulePlayer = "Thêm lịch đá muốn thi đấu";
-  static const String fullName = "Tên của bạn";
+  static const String yourName = "Tên của bạn";
+  static const String fullName = "Họ và tên";
   static const String nameClub = "Tên đội bóng";
   static const String phoneNumber = "Số điện thoại";
+  static const String emailAddress = "Địa chỉ email";
+  static const String password = "Mật khẩu";
+  static const String createNewAccount = "Tạo tài khoản";
   static const String insertSchedule = "Thêm lịch";
   static const String noData = "Không có dữ liệu";
   static const String timeSlot = "Khung thời gian đá được: ";
@@ -47,11 +51,18 @@ class Const {
   static const String timeSlotEnd = "Khung giờ kết thúc";
   static const String change = "Thay đổi";
   static const String choose = "Chọn";
+  static const String or = "Hoặc";
   static const String from = "Từ:";
   static const String to = "Đến:";
   static const String alert = "Thông báo!";
   static const String timeNotValid = "Thời gian không hợp lệ";
   static const String close = "Đóng";
+  static const String register = "Đăng ký";
+  static const String login = "Đăng nhập";
+  static const String registerFail = "Đăng ký thất bại";
+  static const String loginFail = "Đăng nhập thất bại";
+  static const String signInWithGoogle = "Đăng nhập với Google";
+  static const String signInWithFacebook = "Đăng nhập với Facebook";
   static const String youNeedLogin =
       "Bạn cần đăng nhập để thực hiện chức năng này";
 
@@ -83,15 +94,20 @@ class Const {
   static const double size_8 = 8.0;
   static const double size_10 = 10.0;
   static const double size_12 = 12.0;
+  static const double size_14 = 14.0;
   static const double size_15 = 15.0;
   static const double size_16 = 16.0;
   static const double size_20 = 20.0;
+  static const double size_22 = 22.0;
+  static const double size_24 = 24.0;
+  static const double size_25 = 25.0;
   static const double size_30 = 30.0;
   static const double size_32 = 32.0;
   static const double size_35 = 35.0;
   static const double size_40 = 40.0;
   static const double size_50 = 50.0;
   static const double size_60 = 60.0;
+  static const double size_70 = 70.0;
   static const double size_100 = 100.0;
 
   //SharedPreferences
@@ -99,6 +115,7 @@ class Const {
 
   //FireBase Collection
   static const String tutorialCollection = "tutorial";
+  static const String usersCollection = kReleaseMode?"users":"users_dev";
   static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
   static const String matchCollection = kReleaseMode ? "match" : "match_dev";
   static const String scheduleClubCollection =

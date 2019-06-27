@@ -1,4 +1,4 @@
-import 'package:bongdaphui/ui/screen/sigin_signup_screen.dart';
+import 'package:bongdaphui/ui/screen/root_screen.dart';
 import 'package:flutter/material.dart';
 
 class AccountTab extends StatefulWidget {
@@ -13,7 +13,7 @@ class _AccountTabState extends State<AccountTab> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Colors.red,
-      body: new SignInSignUpScreen(),
+      body: new RootScreen(),
     );
   }
 }

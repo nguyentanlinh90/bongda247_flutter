@@ -1,7 +1,8 @@
 class Validator {
   static bool validateName(String text) {
-    return text
-        .contains(new RegExp(r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"));
+//    return text
+//        .contains(new RegExp(r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"));
+    return text.isNotEmpty;
   }
 
   static bool validateNumber(String text) {

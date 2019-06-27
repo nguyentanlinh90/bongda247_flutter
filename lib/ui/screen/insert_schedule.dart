@@ -64,7 +64,7 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
       borderColor: Colors.grey[400],
       errorColor: Colors.red,
       controller: _fullName,
-      hint: args.isMatchPlayer ? Const.fullName : Const.nameClub,
+      hint: args.isMatchPlayer ? Const.yourName : Const.nameClub,
       validator: Validator.validateName,
     );
   }

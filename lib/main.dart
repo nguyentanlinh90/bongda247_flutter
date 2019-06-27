@@ -2,6 +2,8 @@ import 'package:bongdaphui/ui/screen/home_screen.dart';
 import 'package:bongdaphui/ui/screen/insert_schedule.dart';
 import 'package:bongdaphui/ui/screen/notfound_screen.dart';
 import 'package:bongdaphui/ui/screen/sigin_signup_screen.dart';
+import 'package:bongdaphui/ui/screen/sign_in_screen.dart';
+import 'package:bongdaphui/ui/screen/sign_up_screen.dart';
 import 'package:bongdaphui/ui/screen/splash_creen.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
         //routes
         routes: <String, WidgetBuilder>{
           Const.mainRoute: (BuildContext context) => HomeScreen(),
+          Const.signInRoute: (BuildContext context) => new SignInScreen(),
+          Const.signUpRoute: (BuildContext context) => new SignUpScreen(),
           Const.welcomeRoute: (BuildContext context) => SignInSignUpScreen(),
           Const.insertSchedulePlayerRoute: (BuildContext context) =>
               InsertScheduleScreen(),

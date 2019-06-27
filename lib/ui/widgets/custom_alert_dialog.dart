@@ -1,4 +1,6 @@
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
+import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatelessWidget {
@@ -11,9 +13,9 @@ class CustomAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.all(5.0),
+      contentPadding: EdgeInsets.all(Const.size_5),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          borderRadius: BorderRadius.all(Radius.circular(Const.size_32))),
       title: Text(
         title,
         softWrap: true,
@@ -21,17 +23,18 @@ class CustomAlertDialog extends StatelessWidget {
         style: TextStyle(
           color: Colors.black,
           decoration: TextDecoration.none,
-          fontSize: 18,
+          fontSize: Const.size_16,
           fontWeight: FontWeight.w700,
-          fontFamily: "OpenSans",
+          fontFamily: Const.openSansFont,
         ),
       ),
       content: Container(
-        height: 100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            WidgetUtil.sizeBox10(),
             Text(
               content,
               softWrap: true,
@@ -39,25 +42,26 @@ class CustomAlertDialog extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black54,
                 decoration: TextDecoration.none,
-                fontSize: 16,
+                fontSize: Const.size_16,
                 fontWeight: FontWeight.w300,
-                fontFamily: "OpenSans",
+                fontFamily: Const.openSansFont,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(
+                  top: Const.size_40, bottom: Const.size_10),
               child: CustomFlatButton(
-                title: "OK",
-                fontSize: 16,
+                title: Const.close,
+                fontSize: Const.size_16,
                 fontWeight: FontWeight.w700,
                 textColor: Colors.black54,
                 onPressed: () {
-                  onPressed();
                   Navigator.of(context).pop();
+                  onPressed();
                 },
                 splashColor: Colors.black12,
                 borderColor: Colors.black12,
-                borderWidth: 2,
+                borderWidth: Const.size_2,
               ),
             ),
           ],

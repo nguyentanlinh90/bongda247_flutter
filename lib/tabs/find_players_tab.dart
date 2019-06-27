@@ -2,8 +2,8 @@ import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
-import 'package:bongdaphui/models/schedule_player_model.dart';
-import 'package:bongdaphui/models/screen_arguments.dart';
+import 'package:bongdaphui/models/match_model.dart';
+import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
@@ -60,22 +60,22 @@ class _FindPlayersTabState extends State<FindPlayersTab>
     });
   }
 
-  List<SchedulePlayerModel> _getList(AsyncSnapshot dataSnapshot) {
-    List<SchedulePlayerModel> list = new List();
+  List<MatchModel> _getList(AsyncSnapshot dataSnapshot) {
+    List<MatchModel> list = new List();
     for (var value in dataSnapshot.data.documents) {
-      SchedulePlayerModel model = new SchedulePlayerModel.fromJson(value);
-      if (_city.id == model.idCity &&
-          ('0' == _district.id || _district.id == model.idDistrict)) {
+      MatchModel model = new MatchModel.fromJson(value);
+      if (_city.id == model.city &&
+          ('0' == _district.id || _district.id == model.district)) {
         list.add(model);
       }
     }
     list.sort((a, b) {
-      return a.id.compareTo(b.id);
+      return a.from.compareTo(b.from);
     });
     return list;
   }
 
-  Widget _fillCard(BuildContext context, SchedulePlayerModel model) => Row(
+  Widget _fillCard(BuildContext context, MatchModel model) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
@@ -86,9 +86,9 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                 height: Const.size_60,
                 child: CircleAvatar(
                   backgroundColor: Colors.green[900],
-                  backgroundImage: model.photoUrlPlayer.isEmpty
+                  backgroundImage: model.photo.isEmpty
                       ? AssetImage(Const.icPlaying)
-                      : NetworkImage(model.photoUrlPlayer),
+                      : NetworkImage(model.photo),
                 ),
               ),
               SizedBox(
@@ -101,7 +101,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                   size: Const.size_35,
                 ),
                 onPressed: () {
-                  Utils.callPhone(model.phonePlayer);
+                  Utils.callPhone(model.phone);
                 },
               ),
             ],
@@ -113,14 +113,14 @@ class _FindPlayersTabState extends State<FindPlayersTab>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                WidgetUtil.textTitle(context, model.namePlayer),
+                WidgetUtil.textTitle(context, model.name),
                 SizedBox(
                   height: Const.size_5,
                 ),
                 Row(
                   children: <Widget>[
                     WidgetUtil.textBody1Grey(context, Const.contact_),
-                    WidgetUtil.textContent(context, model.phonePlayer),
+                    WidgetUtil.textContent(context, model.phone),
                   ],
                 ),
                 SizedBox(
@@ -139,7 +139,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                   children: <Widget>[
                     WidgetUtil.textBody1Grey(context, Const.area),
                     Utils.getArea(
-                        context, _listCity, model.idCity, model.idDistrict)
+                        context, _listCity, model.city, model.district)
                   ],
                 ),
                 SizedBox(
@@ -151,14 +151,14 @@ class _FindPlayersTabState extends State<FindPlayersTab>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        WidgetUtil.textContent(context, model.startTime),
+                        WidgetUtil.textContent(context, model.from),
                         WidgetUtil.textBody1Grey(context, Const.start)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        WidgetUtil.textContent(context, model.endTime),
+                        WidgetUtil.textContent(context, model.to),
                         WidgetUtil.textBody1Grey(context, Const.end)
                       ],
                     )
@@ -170,7 +170,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
         ],
       );
 
-  Widget _postCard(BuildContext context, SchedulePlayerModel model) => Card(
+  Widget _postCard(BuildContext context, MatchModel model) => Card(
         margin: const EdgeInsets.only(
             left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
         elevation: 2.0,
@@ -187,14 +187,34 @@ class _FindPlayersTabState extends State<FindPlayersTab>
         ),
       );
 
+  void _showNotLoginAlert(
+      {String title, String content, VoidCallback onPressed}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          content: content,
+          title: title,
+          onPressed: onPressed,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_listCity.length > 0 && _listDistrict.length > 0) {
       return new Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute,
-                arguments: ScreenArguments(true, false));
+            /*Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute,
+                arguments: ScreenArguments(true, false));*/
+            _showNotLoginAlert(
+              title: Const.alert,
+              content: Const.youNeedLogin,
+              onPressed: null,
+            );
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.green[900],
@@ -202,7 +222,7 @@ class _FindPlayersTabState extends State<FindPlayersTab>
         backgroundColor: Colors.white,
         body: StreamBuilder(
             stream: Firestore.instance
-                .collection(Const.schedulePlayerCollection)
+                .collection(Const.matchCollection)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)

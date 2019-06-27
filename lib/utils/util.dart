@@ -9,6 +9,7 @@ import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:random_string/random_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
@@ -45,7 +46,8 @@ class Utils {
         builder: (FormFieldState<String> state) {
           return InputDecorator(
             decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: Const.size_10),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: Const.size_10),
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white))),
             child: new DropdownButtonHideUnderline(
@@ -150,4 +152,7 @@ class Utils {
     return WidgetUtil.textContent(context, area);
   }
 
+  static String randomString(int characters) {
+    return randomNumeric(characters);
+  }
 }

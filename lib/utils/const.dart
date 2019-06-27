@@ -49,6 +49,11 @@ class Const {
   static const String choose = "Chọn";
   static const String from = "Từ:";
   static const String to = "Đến:";
+  static const String alert = "Thông báo!";
+  static const String timeNotValid = "Thời gian không hợp lệ";
+  static const String close = "Đóng";
+  static const String youNeedLogin =
+      "Bạn cần đăng nhập để thực hiện chức năng này";
 
   //colors
   static List<Color> kitGradients = [
@@ -73,13 +78,16 @@ class Const {
   static const String icPlaying = "$imageDir/playing.png";
 
   //Size
+  static const double size_2 = 2.0;
   static const double size_5 = 5.0;
   static const double size_8 = 8.0;
   static const double size_10 = 10.0;
   static const double size_12 = 12.0;
   static const double size_15 = 15.0;
+  static const double size_16 = 16.0;
   static const double size_20 = 20.0;
   static const double size_30 = 30.0;
+  static const double size_32 = 32.0;
   static const double size_35 = 35.0;
   static const double size_40 = 40.0;
   static const double size_50 = 50.0;
@@ -92,8 +100,7 @@ class Const {
   //FireBase Collection
   static const String tutorialCollection = "tutorial";
   static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
-  static const String schedulePlayerCollection =
-      kReleaseMode ? "schedule_player" : "dev_schedule_player";
+  static const String matchCollection = kReleaseMode ? "match" : "match_dev";
   static const String scheduleClubCollection =
       kReleaseMode ? "schedule_club" : "dev_schedule_club";
   static const String clubCollection = kReleaseMode ? "clubs" : "dev_clubs";

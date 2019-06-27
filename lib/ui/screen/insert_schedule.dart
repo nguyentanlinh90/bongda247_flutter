@@ -7,12 +7,15 @@ import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
+import 'package:bongdaphui/models/match_model.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
 import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
 import 'package:bongdaphui/ui/widgets/date_time_picker.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class InsertScheduleScreen extends StatefulWidget {
@@ -61,7 +64,7 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
       borderColor: Colors.grey[400],
       errorColor: Colors.red,
       controller: _fullName,
-      hint: args.isInsertSchedulePlayer ? Const.fullName : Const.nameClub,
+      hint: args.isMatchPlayer ? Const.fullName : Const.nameClub,
       validator: Validator.validateName,
     );
   }
@@ -152,8 +155,75 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
     });
   }
 
+  bool _validateTime() {
+    return _fromDate.millisecondsSinceEpoch < _toDate.millisecondsSinceEpoch ||
+        (_fromDate.millisecondsSinceEpoch == _toDate.millisecondsSinceEpoch &&
+            _toTime.hour - _fromTime.hour > 1);
+  }
+
   @override
-  void onInsert() {}
+  void onInsert() {
+    if (!_validateTime()) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: WidgetUtil.textBody1Red(context, Const.alert),
+            content: WidgetUtil.textContent(context, Const.timeNotValid),
+            actions: <Widget>[
+              FlatButton(
+                child: WidgetUtil.textTitle(context, Const.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    } else {
+      final databaseReference = FirebaseDatabase.instance.reference();
+
+      String id =
+          '${DateTime.now().millisecondsSinceEpoch}${Utils.randomString(4)}';
+
+      String typeMatch = args.isMatchPlayer
+          ? EnumTypeMatch.player.toString()
+          : EnumTypeMatch.club.toString();
+
+      String typeField = '';
+      if (_valueFivePeople) typeField = typeField + '5';
+      if (_valueSevenPeople) typeField = typeField + '7';
+      if (_valueElevenPeople) typeField = typeField + '11';
+
+      String from =
+          DateTimeUtil.toMillisecondsSinceEpoch(context, _fromDate, _fromTime);
+      String to =
+          DateTimeUtil.toMillisecondsSinceEpoch(context, _toDate, _toTime);
+
+      MatchModel matchModel = MatchModel(
+          "",
+          typeMatch,
+          typeField,
+          _city.id,
+          _district.id,
+          from,
+          to,
+          _fullName.toString(),
+          _phoneField.toString(),
+          '');
+      try {
+        databaseReference
+            .child(Const.matchCollection)
+            .child(id)
+            .push()
+            .set(matchModel.toJson())
+            .then((value) => {print('')});
+      } catch (e) {
+        print('linhnt${e.toString()}');
+      }
+    }
+  }
 
   _widgetTimeFrom() => DateTimePicker(
         labelText: Const.from,

@@ -1,6 +1,6 @@
 class ScreenArguments {
-  final bool isInsertSchedulePlayer;
+  final bool isMatchPlayer;
   final bool isLogin;
 
-  ScreenArguments(this.isInsertSchedulePlayer, this.isLogin);
+  ScreenArguments(this.isMatchPlayer, this.isLogin);
 }

@@ -186,4 +186,9 @@ class WidgetUtil {
           ),
         ],
       );
+
+  static Widget progress() => Container(
+        child: Center(child: CircularProgressIndicator()),
+        color: Colors.white,
+      );
 }

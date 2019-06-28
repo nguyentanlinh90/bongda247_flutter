@@ -1,93 +1,76 @@
+import 'package:bmnav/bmnav.dart';
+import 'package:bongdaphui/tabs/account_tab.dart';
+import 'package:bongdaphui/tabs/clubs_tab.dart';
+import 'package:bongdaphui/tabs/fields_tab.dart';
+import 'package:bongdaphui/tabs/find_clubs_tab.dart';
+import 'package:bongdaphui/tabs/find_players_tab.dart';
+import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
-import 'package:bongdaphui/business/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bongdaphui/models/user.dart';
 
 class MainScreen extends StatefulWidget {
-  final FirebaseUser firebaseUser;
-
-  MainScreen({this.firebaseUser});
-
-  _MainScreenState createState() => _MainScreenState();
+  @override
+  _MainScreenState createState() => new _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+// SingleTickerProviderStateMixin is used for animation
+class _MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
+  // Create a tab controller
+  TabController controller;
+  int currentPosTab = 0;
+  final PageStorageBucket bucket = PageStorageBucket();
+  final List<Widget> tabs = [
+    FieldsTab(),
+    FindPlayersTab(),
+    FindClubsTab(),
+    ClubsTab(),
+    AccountTab()
+  ];
+  Widget currentScreenTabs = FieldsTab();
 
   @override
   void initState() {
     super.initState();
-    print(widget.firebaseUser);
+    // Initialize the Tab Controller
+    controller = new TabController(length: 5, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the Tab Controller
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: new AppBar(
-        elevation: 0.5,
-        leading: new IconButton(
-            icon: new Icon(Icons.menu),
-            onPressed: () => _scaffoldKey.currentState.openDrawer()),
-        title: Text("Home"),
-        centerTitle: true,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: Text('Log Out'),
-              onTap: () {
-                _logOut();
-                _scaffoldKey.currentState.openEndDrawer();
-              },
-            ),
-          ],
-        ),
-      ),
-      body: StreamBuilder(
-        stream: Auth.getUser(widget.firebaseUser.uid),
-        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  Color.fromRGBO(212, 20, 15, 1.0),
-                ),
-              ),
-            );
-          } else {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 100.0,
-                    width: 100.0,
-                    child: CircleAvatar(
-                      backgroundImage: (snapshot.data.profilePictureURL != '')
-                          ? NetworkImage('${snapshot.data.profilePictureURL}?height=500')
-                          : AssetImage("assets/images/default.png"),
-                    ),
-                  ),
-                  Text("Name: ${snapshot.data.fullName}"),
-                  Text("Email: ${snapshot.data.email}"),
-                  Text("UID: ${snapshot.data.userID}"),
-                ],
-              ),
-            );
-          }
-        },
-      ),
-    );
+    return _buildMain();
   }
 
-  void _logOut() async {
-    Auth.signOut();
-  }
+  Widget _buildMain() => Scaffold(
+      body: PageStorage(child: currentScreenTabs, bucket: bucket),
+      bottomNavigationBar: BottomNav(
+        labelStyle: LabelStyle(
+            showOnSelect: true,
+            onSelectTextStyle: TextStyle(color: Colors.white)),
+        iconStyle: IconStyle(
+            onSelectSize: Const.size_30,
+            color: Colors.white,
+            onSelectColor: Colors.yellow),
+        color: Colors.green[900],
+        index: currentPosTab,
+        onTap: (i) {
+          setState(() {
+            currentPosTab = i;
+            currentScreenTabs = tabs[i];
+          });
+        },
+        items: [
+          BottomNavItem(Icons.widgets, label: 'Tìm sân'),
+          BottomNavItem(Icons.group, label: 'Tìm người'),
+          BottomNavItem(Icons.group_work, label: 'Tìm đội'),
+          BottomNavItem(Icons.location_searching, label: 'Đội bóng'),
+          BottomNavItem(Icons.account_circle, label: 'Tài khoản')
+        ],
+      ));
 }

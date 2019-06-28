@@ -3,7 +3,13 @@ import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/widget.dart';
 import 'package:flutter/material.dart';
 
-class SignInSignUpScreen extends StatelessWidget {
+class SignInSignUpScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new _SignInSignUpScreenState();
+}
+
+class _SignInSignUpScreenState extends State<SignInSignUpScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

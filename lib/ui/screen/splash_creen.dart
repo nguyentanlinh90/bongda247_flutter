@@ -1,5 +1,5 @@
 import 'package:bongdaphui/models/tutorial_model.dart';
-import 'package:bongdaphui/ui/screen/home_screen.dart';
+import 'package:bongdaphui/ui/screen/main_screen.dart';
 import 'package:bongdaphui/ui/screen/tutorial_screen.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/shared_preferences.dart';
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _handleCurrentScreen() {
     if (seen) {
-      return HomeScreen();
+      return MainScreen();
     } else {
       return new Scaffold(
         backgroundColor: Colors.white,

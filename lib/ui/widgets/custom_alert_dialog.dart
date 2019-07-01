@@ -6,12 +6,82 @@ import 'package:flutter/material.dart';
 class CustomAlertDialog extends StatelessWidget {
   final String title;
   final String content;
-  final VoidCallback onPressed;
+  final String leftText;
+  final String rightText;
+  final VoidCallback leftOnPressed;
+  final VoidCallback rightOnPressed;
 
-  CustomAlertDialog({this.title, this.content, this.onPressed});
+  CustomAlertDialog(
+      {@required this.title,
+      @required this.content,
+      this.leftText,
+      @required this.rightText,
+      this.leftOnPressed,
+      this.rightOnPressed});
 
   @override
   Widget build(BuildContext context) {
+    Widget _handelAction() {
+      if (null == leftText) {
+        return Padding(
+          padding:
+              const EdgeInsets.only(top: Const.size_40, bottom: Const.size_10),
+          child: CustomFlatButton(
+            title: rightText,
+            fontSize: Const.size_16,
+            fontWeight: FontWeight.w700,
+            textColor: Colors.black54,
+            onPressed: () {
+              Navigator.of(context).pop();
+              rightOnPressed();
+            },
+            splashColor: Colors.black12,
+            borderColor: Colors.black12,
+            borderWidth: Const.size_2,
+          ),
+        );
+      } else {
+        return Padding(
+          padding:
+              const EdgeInsets.only(top: Const.size_40, bottom: Const.size_10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomFlatButton(
+                title: leftText,
+                fontSize: Const.size_16,
+                fontWeight: FontWeight.w700,
+                textColor: Colors.black54,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  leftOnPressed();
+                },
+                splashColor: Colors.black12,
+                borderColor: Colors.black12,
+                borderWidth: Const.size_2,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: Const.size_20),
+                child: CustomFlatButton(
+                  title: rightText,
+                  fontSize: Const.size_16,
+                  fontWeight: FontWeight.w700,
+                  textColor: Colors.black54,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    rightOnPressed();
+                  },
+                  splashColor: Colors.black12,
+                  borderColor: Colors.black12,
+                  borderWidth: Const.size_2,
+                ),
+              )
+            ],
+          ),
+        );
+      }
+    }
+
     return AlertDialog(
       contentPadding: EdgeInsets.all(Const.size_5),
       shape: RoundedRectangleBorder(
@@ -47,23 +117,7 @@ class CustomAlertDialog extends StatelessWidget {
                 fontFamily: Const.openSansFont,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: Const.size_40, bottom: Const.size_10),
-              child: CustomFlatButton(
-                title: Const.close,
-                fontSize: Const.size_16,
-                fontWeight: FontWeight.w700,
-                textColor: Colors.black54,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onPressed();
-                },
-                splashColor: Colors.black12,
-                borderColor: Colors.black12,
-                borderWidth: Const.size_2,
-              ),
-            ),
+            _handelAction(),
           ],
         ),
       ),

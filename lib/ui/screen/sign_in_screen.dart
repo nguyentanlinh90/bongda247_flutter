@@ -5,6 +5,7 @@ import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import "package:bongdaphui/ui/widgets/custom_text_field.dart";
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
@@ -51,6 +52,8 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -70,7 +73,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           left: Const.size_10,
                           right: Const.size_10),
                       child: Text(
-                        Const.login,
+                        Const.signIn,
                         softWrap: true,
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -102,7 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: Const.size_14, horizontal: Const.size_40),
                       child: CustomFlatButton(
-                        title: Const.login,
+                        title: Const.signIn,
                         fontSize: Const.size_22,
                         fontWeight: FontWeight.w700,
                         textColor: Colors.white,
@@ -212,7 +215,7 @@ class _SignInScreenState extends State<SignInScreen> {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         _changeBlackVisible();
         await Auth.signIn(email, password)
-            .then((uid) => Navigator.of(context).pop());
+            .then((uid) => Utils.popDataSignIn(context));
       } catch (e) {
         print("Error in email sign in: $e");
         String exception = Auth.getExceptionText(e);
@@ -234,15 +237,12 @@ class _SignInScreenState extends State<SignInScreen> {
           .logInWithReadPermissions(['email', 'public_profile']);
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
-
           AuthCredential fbCredential = FacebookAuthProvider.getCredential(
               accessToken: result.accessToken.token);
           await FirebaseAuth.instance
               .signInWithCredential(fbCredential)
               .then((FirebaseUser fireBaseUser) {
-
             User user = new User(
-
               fullName: fireBaseUser.displayName,
               userID: fireBaseUser.uid,
               email: fireBaseUser.email ?? '',
@@ -250,7 +250,7 @@ class _SignInScreenState extends State<SignInScreen> {
               profilePictureURL: fireBaseUser.photoUrl ?? '',
             );
             Auth.addUser(user);
-            Navigator.of(context).pop();
+            Utils.popDataSignIn(context);
           });
 
           break;
@@ -293,7 +293,7 @@ class _SignInScreenState extends State<SignInScreen> {
         profilePictureURL: fireBaseUser.photoUrl ?? '',
       );
       Auth.addUser(user);
-      Navigator.of(context).pop();
+      Utils.popDataSignIn(context);
     } catch (e) {
       print("Error in google sign in: $e");
       String exception = Auth.getExceptionText(e);
@@ -313,7 +313,8 @@ class _SignInScreenState extends State<SignInScreen> {
         return CustomAlertDialog(
           content: content,
           title: title,
-          onPressed: onPressed,
+          rightText: Const.close,
+          rightOnPressed: onPressed,
         );
       },
     );

@@ -7,6 +7,7 @@ import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/util.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 
@@ -31,7 +32,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
 
     onBackPress = () {
-      Navigator.of(context).pop();
+//      Navigator.of(context).pop();
+      Utils.popDataSignIn(context);
     };
 
     _nameField = new CustomTextField(
@@ -228,9 +230,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context: context,
       builder: (context) {
         return CustomAlertDialog(
+          rightText: Const.close,
           content: content,
           title: title,
-          onPressed: onPressed,
+          leftOnPressed: onPressed,
         );
       },
     );

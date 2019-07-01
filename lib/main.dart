@@ -2,7 +2,6 @@ import 'package:bongdaphui/models/tutorial_model.dart';
 import 'package:bongdaphui/ui/screen/insert_schedule.dart';
 import 'package:bongdaphui/ui/screen/main_screen.dart';
 import 'package:bongdaphui/ui/screen/notfound_screen.dart';
-import 'package:bongdaphui/ui/screen/sigin_signup_screen.dart';
 import 'package:bongdaphui/ui/screen/sign_in_screen.dart';
 import 'package:bongdaphui/ui/screen/sign_up_screen.dart';
 import 'package:bongdaphui/ui/screen/tutorial_screen.dart';
@@ -43,10 +42,7 @@ class MyApp extends StatelessWidget {
         //routes
         routes: <String, WidgetBuilder>{
           Const.mainRoute: (BuildContext context) => MainScreen(),
-          Const.signInRoute: (BuildContext context) => new SignInScreen(),
-          Const.signUpRoute: (BuildContext context) => new SignUpScreen(),
-          Const.welcomeRoute: (BuildContext context) => SignInSignUpScreen(),
-          Const.insertSchedulePlayerRoute: (BuildContext context) =>
+          Const.insertMatchRoute: (BuildContext context) =>
               InsertScheduleScreen(),
         },
         onUnknownRoute: (RouteSettings rs) =>

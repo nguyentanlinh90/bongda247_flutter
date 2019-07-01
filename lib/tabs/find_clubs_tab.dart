@@ -8,6 +8,7 @@ import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FindClubsTab extends StatefulWidget {
@@ -193,8 +194,14 @@ class _FindClubsTabState extends State<FindClubsTab>
       return new Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Const.insertSchedulePlayerRoute,
-                arguments: ScreenArguments(false, false));
+            FirebaseAuth.instance.currentUser().then((fireBaseUser) {
+              if (fireBaseUser == null) {
+                Utils.showNotLoginAlert(context);
+              } else {
+                Navigator.of(context).pushNamed(Const.insertMatchRoute,
+                    arguments: ScreenArguments(false, false));
+              }
+            });
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.green[900],

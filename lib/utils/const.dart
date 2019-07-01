@@ -8,15 +8,11 @@ class Const {
   //routes
   static const String rootRoute = "/root";
   static const String mainRoute = "/main";
-  static const String welcomeRoute = "/welcome";
-  static const String signInRoute = "/signin";
-  static const String signUpRoute = "/signup";
-  static const String insertSchedulePlayerRoute = "/insertSchedulePlayer";
+  static const String insertMatchRoute = "/insertMatch";
 
   //strings
   static const String appName = "Bóng Đá Phủi";
   static const String start = "Bắt Đầu";
-  static const String signIn = "Đăng Nhập";
   static const String signUp = "Đăng Ký";
   static const String countField = "Số lượng sân";
   static const String priceAVG = "Giá trung bình";
@@ -43,7 +39,8 @@ class Const {
   static const String emailAddress = "Địa chỉ email";
   static const String password = "Mật khẩu";
   static const String createNewAccount = "Tạo tài khoản";
-  static const String insertSchedule = "Thêm lịch";
+  static const String watchSchedule = "Xem lịch đấu";
+  static const String insertSchedule = "Thêm lịch đấu";
   static const String noData = "Không có dữ liệu";
   static const String timeSlot = "Khung thời gian đá được: ";
   static const String timeNote = "(* Giờ kết thúc phải lớn hơn giờ băt đầu)";
@@ -57,14 +54,21 @@ class Const {
   static const String alert = "Thông báo!";
   static const String timeNotValid = "Thời gian không hợp lệ";
   static const String close = "Đóng";
+  static const String yes = "Có";
+  static const String no = "Không";
   static const String register = "Đăng ký";
-  static const String login = "Đăng nhập";
+  static const String signIn = "Đăng nhập";
+  static const String logout = "Đăng xuất";
   static const String registerFail = "Đăng ký thất bại";
   static const String loginFail = "Đăng nhập thất bại";
   static const String signInWithGoogle = "Đăng nhập với Google";
   static const String signInWithFacebook = "Đăng nhập với Facebook";
-  static const String youNeedLogin =
-      "Bạn cần đăng nhập để thực hiện chức năng này";
+  static const String youNeedLogin = "Bạn cần đăng nhập để thực hiện chức năng này";
+  static const String youWantSignOut = "Bạn chắc chăn muốn đăng xuất tài khoản này không?";
+
+  //string data
+  static const String signInData = "signInData";
+  static const String signInSuccess = "signInSuccess";
 
   //colors
   static List<Color> kitGradients = [
@@ -87,6 +91,7 @@ class Const {
   static const String icLauncher = "$imageDir/ic_launcher.png";
   static const String icSplash = "$imageDir/ic_splash.png";
   static const String icPlaying = "$imageDir/playing.png";
+  static const String icDefault = "$imageDir/default.png";
 
   //Size
   static const double size_2 = 2.0;
@@ -115,7 +120,7 @@ class Const {
 
   //FireBase Collection
   static const String tutorialCollection = "tutorial";
-  static const String usersCollection = kReleaseMode?"users":"users_dev";
+  static const String usersCollection = kReleaseMode ? "users" : "users_dev";
   static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
   static const String matchCollection = kReleaseMode ? "match" : "match_dev";
   static const String scheduleClubCollection =

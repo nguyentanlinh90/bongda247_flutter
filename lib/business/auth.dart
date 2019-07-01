@@ -21,7 +21,6 @@ class Auth {
     FirebaseUser _user;
     final facebookLogin = FacebookLogin();
 
-
     final result = await facebookLogin.logInWithReadPermissions(['email']);
     if (result.status == FacebookLoginStatus.loggedIn) {
       final token = result.accessToken.token;
@@ -63,6 +62,10 @@ class Auth {
   static Future<FirebaseUser> getCurrentFirebaseUser() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     return user;
+  }
+
+  static bool checkIsLogged() {
+    return FirebaseAuth.instance.currentUser() != null;
   }
 
   static void addUser(User user) async {

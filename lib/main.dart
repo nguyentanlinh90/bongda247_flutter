@@ -1,5 +1,5 @@
 import 'package:bongdaphui/models/tutorial_model.dart';
-import 'package:bongdaphui/ui/screen/insert_schedule.dart';
+import 'package:bongdaphui/ui/screen/insert_match.dart';
 import 'package:bongdaphui/ui/screen/main_screen.dart';
 import 'package:bongdaphui/ui/screen/notfound_screen.dart';
 import 'package:bongdaphui/ui/screen/sign_in_screen.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           Const.mainRoute: (BuildContext context) => MainScreen(),
           Const.insertMatchRoute: (BuildContext context) =>
-              InsertScheduleScreen(),
+              InsertMatchScreen(),
         },
         onUnknownRoute: (RouteSettings rs) =>
             new MaterialPageRoute(builder: (context) => new NotFoundScreen()));

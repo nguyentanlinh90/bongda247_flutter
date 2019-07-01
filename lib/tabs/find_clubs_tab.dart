@@ -1,3 +1,4 @@
+import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
@@ -8,7 +9,6 @@ import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FindClubsTab extends StatefulWidget {
@@ -194,12 +194,12 @@ class _FindClubsTabState extends State<FindClubsTab>
       return new Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            FirebaseAuth.instance.currentUser().then((fireBaseUser) {
+            Auth.getCurrentUser().then((fireBaseUser) {
               if (fireBaseUser == null) {
                 Utils.showNotLoginAlert(context);
               } else {
                 Navigator.of(context).pushNamed(Const.insertMatchRoute,
-                    arguments: ScreenArguments(false, false));
+                    arguments: ScreenArguments(false, fireBaseUser.uid));
               }
             });
           },

@@ -64,10 +64,6 @@ class Auth {
     return user;
   }
 
-  static bool checkIsLogged() {
-    return FirebaseAuth.instance.currentUser() != null;
-  }
-
   static void addUser(User user) async {
     checkUserExist(user.userID).then((value) {
       if (!value) {
@@ -109,6 +105,10 @@ class Auth {
         return User.fromDocument(doc);
       }).first;
     });
+  }
+
+  static Future<FirebaseUser> getCurrentUser() async {
+    return FirebaseAuth.instance.currentUser();
   }
 
   static String getExceptionText(Exception e) {

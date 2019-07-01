@@ -1,6 +1,6 @@
 class ScreenArguments {
   final bool isMatchPlayer;
-  final bool isLogin;
+  final String idUser;
 
-  ScreenArguments(this.isMatchPlayer, this.isLogin);
+  ScreenArguments(this.isMatchPlayer, this.idUser);
 }

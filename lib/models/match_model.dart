@@ -1,5 +1,6 @@
 class MatchModel {
-  String idCreate;
+  String id;
+  String idUser;
   String typeMatch;
   String typeField;
   String city;
@@ -10,11 +11,12 @@ class MatchModel {
   String phone;
   String photo;
 
-  MatchModel(this.idCreate, this.typeMatch, this.typeField, this.city,
+  MatchModel(this.id,this.idUser, this.typeMatch, this.typeField, this.city,
       this.district, this.from, this.to, this.name, this.phone, this.photo);
 
   MatchModel.fromJson(var value) {
-    this.idCreate = value['idCreate'];
+    this.id = value['id'];
+    this.idUser = value['idUser'];
     this.typeMatch = value['typeMatch'];
     this.typeField = value['typeField'];
     this.city = value['city'];
@@ -28,7 +30,8 @@ class MatchModel {
 
   toJson() {
     return {
-      "idCreate": idCreate,
+      "id": id,
+      "idUser": idUser,
       "typeMatch": typeMatch,
       "typeField": typeField,
       "city": city,
@@ -40,15 +43,4 @@ class MatchModel {
       "photo": photo
     };
   }
-}
-
-class EnumTypeMatch {
-  final _value;
-
-  const EnumTypeMatch._internal(this._value);
-
-  toString() => _value;
-
-  static const player = const EnumTypeMatch._internal('1');
-  static const club = const EnumTypeMatch._internal('2');
 }

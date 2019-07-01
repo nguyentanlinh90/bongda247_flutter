@@ -247,7 +247,7 @@ class _SignInScreenState extends State<SignInScreen> {
               userID: fireBaseUser.uid,
               email: fireBaseUser.email ?? '',
               phone: fireBaseUser.phoneNumber ?? '',
-              profilePictureURL: fireBaseUser.photoUrl ?? '',
+              profilePictureURL: '${fireBaseUser.photoUrl}?height=500' ?? '',
             );
             Auth.addUser(user);
             Utils.popDataSignIn(context);
@@ -290,7 +290,7 @@ class _SignInScreenState extends State<SignInScreen> {
         fullName: fireBaseUser.displayName,
         userID: fireBaseUser.uid,
         email: fireBaseUser.email ?? '',
-        profilePictureURL: fireBaseUser.photoUrl ?? '',
+        profilePictureURL: '${fireBaseUser.photoUrl}?height=500' ?? '',
       );
       Auth.addUser(user);
       Utils.popDataSignIn(context);

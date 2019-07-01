@@ -1,3 +1,5 @@
+import 'package:bongdaphui/business/auth.dart';
+import 'package:bongdaphui/business/fire_base.dart';
 import 'package:bongdaphui/business/validator.dart';
 import 'package:bongdaphui/listener/insert_listener.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
@@ -9,8 +11,11 @@ import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
 import 'package:bongdaphui/models/match_model.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
+import 'package:bongdaphui/models/user.dart';
+import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
 import 'package:bongdaphui/ui/widgets/date_time_picker.dart';
+import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
@@ -18,13 +23,13 @@ import 'package:bongdaphui/utils/widget.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class InsertScheduleScreen extends StatefulWidget {
+class InsertMatchScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
-    return _InsertScheduleScreenState();
+    return _InsertMatchScreenState();
   }
 }
 
-class _InsertScheduleScreenState extends State<InsertScheduleScreen>
+class _InsertMatchScreenState extends State<InsertMatchScreen>
     implements
         InsertListener,
         SelectTypeFieldListener,
@@ -34,8 +39,10 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
         SelectTimeEndListener {
   ScreenArguments args;
 
+  User user;
+
   final TextEditingController _fullName = new TextEditingController();
-  final TextEditingController _number = new TextEditingController();
+  final TextEditingController _phoneNumber = new TextEditingController();
   final TextEditingController _timeStart = new TextEditingController();
   final TextEditingController _timeEnd = new TextEditingController();
   CustomTextField _nameField;
@@ -87,7 +94,6 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
   @override
   void initState() {
     super.initState();
-
     _loadListCity();
 
     onBackPress = () {
@@ -98,7 +104,7 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
       baseColor: Colors.grey,
       borderColor: Colors.grey[400],
       errorColor: Colors.red,
-      controller: _number,
+      controller: _phoneNumber,
       hint: Const.phoneNumber,
       validator: Validator.validateNumber,
       inputType: TextInputType.number,
@@ -155,32 +161,27 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
     });
   }
 
-  bool _validateTime() {
-    return _fromDate.millisecondsSinceEpoch < _toDate.millisecondsSinceEpoch ||
-        (_fromDate.millisecondsSinceEpoch == _toDate.millisecondsSinceEpoch &&
-            _toTime.hour - _fromTime.hour > 1);
+  bool _validateTime(int from, int to) {
+    return to - from >= 7200000; // 2 hours = 2 * 3600000 (ms)
   }
 
   @override
   void onInsert() {
-    if (!_validateTime()) {
+    int from =
+        DateTimeUtil.toMillisecondsSinceEpoch(context, _fromDate, _fromTime);
+    int to = DateTimeUtil.toMillisecondsSinceEpoch(context, _toDate, _toTime);
+
+    if (!_validateTime(from, to)) {
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: WidgetUtil.textBody1Red(context, Const.alert),
-            content: WidgetUtil.textContent(context, Const.timeNotValid),
-            actions: <Widget>[
-              FlatButton(
-                child: WidgetUtil.textTitle(context, Const.close),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        },
-      );
+          barrierDismissible: true,
+          context: context,
+          builder: (context) {
+            return CustomAlertDialog(
+              title: Const.alert,
+              content: Const.timeNotValid,
+              rightText: Const.close,
+            );
+          });
     } else {
       final databaseReference = FirebaseDatabase.instance.reference();
 
@@ -192,33 +193,49 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
           : EnumTypeMatch.club.toString();
 
       String typeField = '';
-      if (_valueFivePeople) typeField = typeField + '5';
-      if (_valueSevenPeople) typeField = typeField + '7';
-      if (_valueElevenPeople) typeField = typeField + '11';
-
-      String from =
-          DateTimeUtil.toMillisecondsSinceEpoch(context, _fromDate, _fromTime);
-      String to =
-          DateTimeUtil.toMillisecondsSinceEpoch(context, _toDate, _toTime);
+      if (_valueFivePeople)
+        typeField = typeField + EnumTypeField.field5.toString();
+      if (_valueSevenPeople)
+        typeField = typeField + EnumTypeField.field7.toString();
+      if (_valueElevenPeople)
+        typeField = typeField + EnumTypeField.field11.toString();
 
       MatchModel matchModel = MatchModel(
-          "",
+          id,
+          args.idUser,
           typeMatch,
           typeField,
           _city.id,
           _district.id,
-          from,
-          to,
-          _fullName.toString(),
-          _phoneField.toString(),
-          '');
+          '$from',
+          '$to',
+          _fullName.text,
+          _phoneNumber.text,
+          user.profilePictureURL.isEmpty ? '' : user.profilePictureURL);
       try {
-        databaseReference
-            .child(Const.matchCollection)
-            .child(id)
-            .push()
-            .set(matchModel.toJson())
-            .then((value) => {print('')});
+        FireBase.addMatch(matchModel).whenComplete(() {
+          showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) {
+                return CustomAlertDialog(
+                  title: Const.alert,
+                  content: Const.insertMatchSuccess,
+                  rightText: Const.close,
+                );
+              });
+        }).catchError((error) {
+          showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) {
+                return CustomAlertDialog(
+                  title: Const.alert,
+                  content: '${Const.insertMatchFail}\nLỗi: ${error.toString()}',
+                  rightText: Const.close,
+                );
+              });
+        });
       } catch (e) {
         print('linhnt${e.toString()}');
       }
@@ -263,45 +280,62 @@ class _InsertScheduleScreenState extends State<InsertScheduleScreen>
         },
       );
 
+  void _setUser(User model) {
+    user = model;
+    if (user.fullName.isNotEmpty) _fullName.text = user.fullName;
+    if (user.phone.isNotEmpty) _phoneNumber.text = user.phone;
+  }
+
   @override
   Widget build(BuildContext context) {
     _getArgs(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: WidgetUtil.appBar(Const.insertSchedulePlayer),
-        body: Padding(
-          padding: const EdgeInsets.all(Const.size_10),
-          child: ListView(
-            children: <Widget>[
-              _nameField,
-              WidgetUtil.sizeBox10(),
-              _phoneField,
-              WidgetUtil.sizeBox10(),
-              WidgetUtil.textBody1Grey(context, Const.timeSlot),
-              WidgetUtil.sizeBox5(),
-              _widgetTimeFrom(),
-              _widgetTimeTo(),
-              WidgetUtil.sizeBox10(),
-              WidgetUtil.textBody1Grey(context, Const.area),
-              WidgetUtil.sizeBox5(),
-              Card(
-                elevation: 0.0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey[400], width: 1.0),
-                  borderRadius: BorderRadius.circular(10.0),
+        body: StreamBuilder(
+          stream: Auth.getUser(args.idUser),
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+            if (!snapshot.hasData) {
+              WidgetUtil.progress();
+            } else {
+              _setUser(snapshot.data);
+              return Padding(
+                padding: const EdgeInsets.all(Const.size_10),
+                child: ListView(
+                  children: <Widget>[
+                    _nameField,
+                    WidgetUtil.sizeBox10(),
+                    _phoneField,
+                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.textBody1Grey(context, Const.timeSlot),
+                    WidgetUtil.sizeBox5(),
+                    _widgetTimeFrom(),
+                    _widgetTimeTo(),
+                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.textBody1Grey(context, Const.area),
+                    WidgetUtil.sizeBox5(),
+                    Card(
+                      elevation: 0.0,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.grey[400], width: 1.0),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Utils.filterBox(context, _listCity, _city,
+                          _listDistrict, _district, this, this),
+                    ),
+                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.textBody1Grey(context, Const.typeField),
+                    WidgetUtil.selectTypeField(context, _valueFivePeople,
+                        _valueSevenPeople, _valueElevenPeople, this),
+                    WidgetUtil.sizeBox20(),
+                    WidgetUtil.buttonInsert(Const.insertSchedule, this),
+                  ],
                 ),
-                child: Utils.filterBox(context, _listCity, _city, _listDistrict,
-                    _district, this, this),
-              ),
-              WidgetUtil.sizeBox10(),
-              WidgetUtil.textBody1Grey(context, Const.typeField),
-              WidgetUtil.selectTypeField(context, _valueFivePeople,
-                  _valueSevenPeople, _valueElevenPeople, this),
-              WidgetUtil.sizeBox20(),
-              WidgetUtil.buttonInsert(Const.insertSchedule, this),
-            ],
-          ),
+              );
+            }
+          },
         ),
       ),
     );

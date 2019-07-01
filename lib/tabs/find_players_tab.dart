@@ -1,3 +1,4 @@
+import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
@@ -194,12 +195,12 @@ class _FindPlayersTabState extends State<FindPlayersTab>
       return new Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            FirebaseAuth.instance.currentUser().then((fireBaseUser) {
+            Auth.getCurrentUser().then((fireBaseUser) {
               if (fireBaseUser == null) {
                 Utils.showNotLoginAlert(context);
               } else {
                 Navigator.of(context).pushNamed(Const.insertMatchRoute,
-                    arguments: ScreenArguments(true, false));
+                    arguments: ScreenArguments(true, fireBaseUser.uid));
               }
             });
           },

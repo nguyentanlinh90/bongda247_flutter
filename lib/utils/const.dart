@@ -65,6 +65,8 @@ class Const {
   static const String signInWithFacebook = "Đăng nhập với Facebook";
   static const String youNeedLogin = "Bạn cần đăng nhập để thực hiện chức năng này";
   static const String youWantSignOut = "Bạn chắc chăn muốn đăng xuất tài khoản này không?";
+  static const String insertMatchSuccess = "Thêm lịch thi đấu thành công";
+  static const String insertMatchFail = "Có lỗi khi thêm lịch thi đấu";
 
   //string data
   static const String signInData = "signInData";

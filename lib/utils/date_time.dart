@@ -31,12 +31,12 @@ class DateTimeUtil {
     return dateOfWeek;
   }
 
-  static String toMillisecondsSinceEpoch(
+  static int toMillisecondsSinceEpoch(
       BuildContext context, DateTime date, TimeOfDay time) {
     String from =
         '${DateFormat(FormatDate.yyyyMMdd.toString()).format(date)} ${time.format(context)}:00';
     int millisecondsSinceEpoch = DateTime.parse(from).millisecondsSinceEpoch;
-    return '$millisecondsSinceEpoch';
+    return millisecondsSinceEpoch;
   }
 
   static String toDate(int millisecondsSinceEpoch) {

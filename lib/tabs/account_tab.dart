@@ -29,7 +29,7 @@ class _AccountTabState extends State<AccountTab> {
   }
 
   _checkLogged() async {
-    await FirebaseAuth.instance.currentUser().then((user) {
+   Auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
           isLogin = isLoginValue;
@@ -40,15 +40,11 @@ class _AccountTabState extends State<AccountTab> {
     });
   }
 
-  _logOut() async {
+  _logOut()  {
+    Auth.signOut();
     setState(() {
       isLogin = isNotLoginValue;
     });
-    try {
-      await Auth.signOut();
-    } catch (e) {
-      print('linhnt $e');
-    }
   }
 
   _questionSignOut() {

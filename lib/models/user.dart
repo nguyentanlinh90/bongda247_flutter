@@ -18,7 +18,7 @@ class User {
   Map<String, Object> toJson() {
     return {
       'userID': userID,
-      'firstName': fullName,
+      'fullName': fullName,
       'email': email == null ? '' : email,
       'phone': phone == null ? '' : phone,
       'profilePictureURL': profilePictureURL,
@@ -29,7 +29,7 @@ class User {
   factory User.fromJson(Map<String, Object> doc) {
     User user = new User(
       userID: doc['userID'],
-      fullName: doc['firstName'],
+      fullName: doc['fullName'],
       email: doc['email'],
       phone: doc['phone'],
       profilePictureURL: doc['profilePictureURL'],

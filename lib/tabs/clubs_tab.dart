@@ -1,8 +1,10 @@
+import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/club_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
+import 'package:bongdaphui/ui/screen/insert_club.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
@@ -195,6 +197,24 @@ class _ClubsTabState extends State<ClubsTab>
     if (_listCity.length > 0 && _listDistrict.length > 0) {
       return new Scaffold(
         backgroundColor: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Auth.getCurrentUser().then((fireBaseUser) {
+              if (fireBaseUser == null) {
+                Utils.showNotLoginAlert(context);
+              } else {
+//                Navigator.of(context).pushNamed(Const.insertClubRoute,
+//                    arguments: fireBaseUser.uid);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InsertClubScreen(uid: fireBaseUser.uid)),
+                );
+              }
+            });
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green[900],
+        ),
         body: StreamBuilder(
             stream:
                 Firestore.instance.collection(Const.clubCollection).snapshots(),

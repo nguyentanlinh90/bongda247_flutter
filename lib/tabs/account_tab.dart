@@ -113,7 +113,7 @@ class _AccountTabState extends State<AccountTab> {
         child: Scaffold(
           body: StreamBuilder(
             stream: Auth.getUser(uid),
-            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
               if (!snapshot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(

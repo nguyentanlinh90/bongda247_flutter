@@ -16,6 +16,9 @@ class ClubModel {
   final String rating;
   final List<dynamic> players;
   final List<dynamic> comments;
+  final dynamic user;
+
+
 
   ClubModel.fromJson(Map<String, dynamic> value)
       : this.id = value['id'],
@@ -34,7 +37,8 @@ class ClubModel {
         this.countRating = value['countRating'],
         this.rating = value['rating'],
         this.players = value['players'],
-        this.comments = value['comments'];
+        this.comments = value['comments'],
+        this.user = value['user'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -53,7 +57,8 @@ class ClubModel {
         'countRating': countRating,
         'rating': rating,
         'players': players,
-        'comments': comments;
+        'comments': comments,
+        'user': user
       };
 
   String amountPlayer;

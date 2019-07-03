@@ -38,7 +38,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         SelectTimeEndListener {
   ScreenArguments args;
 
-  User user;
+  UserModel user;
 
   final TextEditingController _fullName = new TextEditingController();
   final TextEditingController _phoneNumber = new TextEditingController();
@@ -275,7 +275,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         },
       );
 
-  void _setUser(User model) {
+  void _setUser(UserModel model) {
     user = model;
     if (args.typeMatch == EnumTypeMatch.player.toString()) {
       if (user.fullName.isNotEmpty) _fullName.text = user.fullName;
@@ -292,7 +292,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         appBar: WidgetUtil.appBar(Const.insertSchedulePlayer),
         body: StreamBuilder(
           stream: Auth.getUser(args.idUser),
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
             if (!snapshot.hasData) {
               WidgetUtil.progress();
             } else {
@@ -327,7 +327,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
                     WidgetUtil.selectTypeField(context, _valueFivePeople,
                         _valueSevenPeople, _valueElevenPeople, this),
                     WidgetUtil.heightBox20(),
-                    WidgetUtil.buttonInsert(Const.insertSchedule, this),
+                    WidgetUtil.buttonInsert(Const.insert, this),
                   ],
                 ),
               );

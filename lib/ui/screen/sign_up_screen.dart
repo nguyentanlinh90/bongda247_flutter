@@ -204,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         _changeBlackVisible();
         await Auth.signUp(email, password).then((uID) {
-          Auth.addUser(new User(
+          Auth.addUser(new UserModel(
               userID: uID,
               email: email,
               phone: number,

@@ -64,7 +64,7 @@ class Auth {
     return user;
   }
 
-  static void addUser(User user) async {
+  static void addUser(UserModel user) async {
     checkUserExist(user.userID).then((value) {
       if (!value) {
         print("user ${user.fullName} ${user.email} added");
@@ -95,14 +95,14 @@ class Auth {
     }
   }
 
-  static Stream<User> getUser(String userID) {
+  static Stream<UserModel> getUser(String userID) {
     return Firestore.instance
         .collection("${Const.usersCollection}")
         .where("userID", isEqualTo: userID)
         .snapshots()
         .map((QuerySnapshot snapshot) {
       return snapshot.documents.map((doc) {
-        return User.fromDocument(doc);
+        return UserModel.fromDocument(doc);
       }).first;
     });
   }

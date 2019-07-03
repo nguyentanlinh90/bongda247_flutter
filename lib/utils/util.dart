@@ -135,6 +135,19 @@ class Utils {
         ),
       );
 
+  static Widget cityBox(BuildContext context, List<CityModel> _listCity,
+          CityModel _city, SelectCityListener cityListener) =>
+      SizedBox(
+        width: double.infinity,
+        height: Const.size_50,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            buildFormCity(context, _listCity, _city, cityListener)
+          ],
+        ),
+      );
+
   static Widget getArea(BuildContext context, List<CityModel> _listCity,
       String idCity, String idDistrict) {
     String area = '';

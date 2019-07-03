@@ -242,7 +242,7 @@ class _SignInScreenState extends State<SignInScreen> {
           await FirebaseAuth.instance
               .signInWithCredential(fbCredential)
               .then((FirebaseUser fireBaseUser) {
-            User user = new User(
+            UserModel user = new UserModel(
               fullName: fireBaseUser.displayName,
               userID: fireBaseUser.uid,
               email: fireBaseUser.email ?? '',
@@ -286,7 +286,7 @@ class _SignInScreenState extends State<SignInScreen> {
       final FirebaseUser fireBaseUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      User user = new User(
+      UserModel user = new UserModel(
         fullName: fireBaseUser.displayName,
         userID: fireBaseUser.uid,
         email: fireBaseUser.email ?? '',

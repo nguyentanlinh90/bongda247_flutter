@@ -9,6 +9,7 @@ class Const {
   static const String rootRoute = "/root";
   static const String mainRoute = "/main";
   static const String insertMatchRoute = "/insertMatch";
+  static const String insertClubRoute = "/insertClub";
 
   //strings
   static const String appName = "Bóng Đá Phủi";
@@ -40,7 +41,9 @@ class Const {
   static const String password = "Mật khẩu";
   static const String createNewAccount = "Tạo tài khoản";
   static const String watchSchedule = "Xem lịch đấu";
+  static const String insert = "Thêm";
   static const String insertSchedule = "Thêm lịch đấu";
+  static const String insertClub = "Thêm đội bóng";
   static const String noData = "Không có dữ liệu";
   static const String timeSlot = "Khung thời gian đá được: ";
   static const String timeNote = "(* Giờ kết thúc phải lớn hơn giờ băt đầu)";
@@ -63,10 +66,15 @@ class Const {
   static const String loginFail = "Đăng nhập thất bại";
   static const String signInWithGoogle = "Đăng nhập với Google";
   static const String signInWithFacebook = "Đăng nhập với Facebook";
-  static const String youNeedLogin = "Bạn cần đăng nhập để thực hiện chức năng này";
-  static const String youWantSignOut = "Bạn chắc chăn muốn đăng xuất tài khoản này không?";
+  static const String youNeedLogin =
+      "Bạn cần đăng nhập để thực hiện chức năng này";
+  static const String youWantSignOut =
+      "Bạn chắc chăn muốn đăng xuất tài khoản này không?";
   static const String insertMatchSuccess = "Thêm lịch thi đấu thành công";
+  static const String insertClubSuccess = "Thêm đội thành công";
   static const String insertMatchFail = "Có lỗi khi thêm lịch thi đấu";
+  static const String camera = "Máy ảnh";
+  static const String gallery = "Bộ sưu tập";
 
   //string data
   static const String signInData = "signInData";
@@ -94,6 +102,8 @@ class Const {
   static const String icSplash = "$imageDir/ic_splash.png";
   static const String icPlaying = "$imageDir/playing.png";
   static const String icDefault = "$imageDir/default.png";
+  static const String icNoImage = "$imageDir/no_image.png";
+  static const String icCamera = "$imageDir/ic_camera.png";
 
   //Size
   static const double size_2 = 2.0;
@@ -115,7 +125,11 @@ class Const {
   static const double size_50 = 50.0;
   static const double size_60 = 60.0;
   static const double size_70 = 70.0;
+  static const double size_80 = 80.0;
   static const double size_100 = 100.0;
+  static const double size_150 = 150.0;
+  static const double size_160 = 160.0;
+  static const double size_200 = 200.0;
 
   //SharedPreferences
   static const String seenTutorialPrefs = "seenTutorial";
@@ -125,7 +139,5 @@ class Const {
   static const String usersCollection = kReleaseMode ? "users" : "users_dev";
   static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
   static const String matchCollection = kReleaseMode ? "match" : "match_dev";
-  static const String scheduleClubCollection =
-      kReleaseMode ? "schedule_club" : "dev_schedule_club";
-  static const String clubCollection = kReleaseMode ? "clubs" : "dev_clubs";
+  static const String clubCollection = kReleaseMode ? "clubs" : "clubs_dev";
 }

@@ -49,8 +49,8 @@ class Const {
   static const String change = "Thay đổi";
   static const String choose = "Chọn";
   static const String or = "Hoặc";
-  static const String from = "Từ:";
-  static const String to = "Đến:";
+  static const String from = "Từ:  ";
+  static const String to = "Đến:  ";
   static const String alert = "Thông báo!";
   static const String timeNotValid = "Thời gian không hợp lệ";
   static const String close = "Đóng";

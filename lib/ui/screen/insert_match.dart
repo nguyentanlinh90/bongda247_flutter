@@ -20,7 +20,6 @@ import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class InsertMatchScreen extends StatefulWidget {
@@ -71,7 +70,9 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
       borderColor: Colors.grey[400],
       errorColor: Colors.red,
       controller: _fullName,
-      hint: args.isMatchPlayer ? Const.yourName : Const.nameClub,
+      hint: args.typeMatch == EnumTypeMatch.player.toString()
+          ? Const.yourName
+          : Const.nameClub,
       validator: Validator.validateName,
     );
   }
@@ -183,14 +184,8 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
             );
           });
     } else {
-      final databaseReference = FirebaseDatabase.instance.reference();
-
       String id =
           '${DateTime.now().millisecondsSinceEpoch}${Utils.randomString(4)}';
-
-      String typeMatch = args.isMatchPlayer
-          ? EnumTypeMatch.player.toString()
-          : EnumTypeMatch.club.toString();
 
       String typeField = '';
       if (_valueFivePeople)
@@ -203,7 +198,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
       MatchModel matchModel = MatchModel(
           id,
           args.idUser,
-          typeMatch,
+          args.typeMatch,
           typeField,
           _city.id,
           _district.id,
@@ -282,7 +277,9 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
 
   void _setUser(User model) {
     user = model;
-    if (user.fullName.isNotEmpty) _fullName.text = user.fullName;
+    if (args.typeMatch == EnumTypeMatch.player.toString()) {
+      if (user.fullName.isNotEmpty) _fullName.text = user.fullName;
+    }
     if (user.phone.isNotEmpty) _phoneNumber.text = user.phone;
   }
 
@@ -305,16 +302,16 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
                 child: ListView(
                   children: <Widget>[
                     _nameField,
-                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.heightBox10(),
                     _phoneField,
-                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.heightBox10(),
                     WidgetUtil.textBody1Grey(context, Const.timeSlot),
-                    WidgetUtil.sizeBox5(),
+                    WidgetUtil.heightBox5(),
                     _widgetTimeFrom(),
                     _widgetTimeTo(),
-                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.heightBox10(),
                     WidgetUtil.textBody1Grey(context, Const.area),
-                    WidgetUtil.sizeBox5(),
+                    WidgetUtil.heightBox5(),
                     Card(
                       elevation: 0.0,
                       color: Colors.white,
@@ -325,11 +322,11 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
                       child: Utils.filterBox(context, _listCity, _city,
                           _listDistrict, _district, this, this),
                     ),
-                    WidgetUtil.sizeBox10(),
+                    WidgetUtil.heightBox10(),
                     WidgetUtil.textBody1Grey(context, Const.typeField),
                     WidgetUtil.selectTypeField(context, _valueFivePeople,
                         _valueSevenPeople, _valueElevenPeople, this),
-                    WidgetUtil.sizeBox20(),
+                    WidgetUtil.heightBox20(),
                     WidgetUtil.buttonInsert(Const.insertSchedule, this),
                   ],
                 ),

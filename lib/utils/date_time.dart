@@ -42,9 +42,9 @@ class DateTimeUtil {
   static String toDate(int millisecondsSinceEpoch) {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
     var format = DateFormat(FormatDate.ddMMyyyyHHmm.toString());
-    var dateString =
-        '${DateTimeUtil.getDayOfWeek(date)}, ${format.format(date)}';
-    return dateString;
+    var dayOfWeekString = DateTimeUtil.getDayOfWeek(date);
+    var dateString = format.format(date);
+    return '$dayOfWeekString, $dateString';
   }
 }
 

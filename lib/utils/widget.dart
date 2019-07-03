@@ -3,6 +3,7 @@ import 'package:bongdaphui/listener/select_time_end_listener.dart';
 import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
+import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 
@@ -93,11 +94,13 @@ class WidgetUtil {
     if (picked != null) listener.onTimeEndSelect(picked.toString());
   }
 
-  static Widget sizeBox20() => SizedBox(height: Const.size_20);
+  static Widget heightBox20() => SizedBox(height: Const.size_20);
 
-  static Widget sizeBox10() => SizedBox(height: Const.size_10);
+  static Widget heightBox10() => SizedBox(height: Const.size_10);
 
-  static Widget sizeBox5() => SizedBox(height: Const.size_5);
+  static Widget heightBox5() => SizedBox(height: Const.size_5);
+
+  static Widget widthBox10() => SizedBox(width: Const.size_10);
 
   static Widget dividerGrey() => SizedBox(
         height: 0.5,
@@ -155,7 +158,7 @@ class WidgetUtil {
                 value: fivePeople,
                 activeColor: Colors.green[900],
               ),
-              WidgetUtil.textContent(context, Const.fivePeoPle),
+              textContent(context, Const.fivePeoPle),
             ],
           ),
           Row(
@@ -168,7 +171,7 @@ class WidgetUtil {
                 value: sevenPeople,
                 activeColor: Colors.green[900],
               ),
-              WidgetUtil.textContent(context, Const.sevenPeoPle),
+              textContent(context, Const.sevenPeoPle),
             ],
           ),
           Row(
@@ -181,10 +184,44 @@ class WidgetUtil {
                 value: elevenPeople,
                 activeColor: Colors.green[900],
               ),
-              WidgetUtil.textContent(context, Const.elevenPeoPle),
+              textContent(context, Const.elevenPeoPle),
             ],
           ),
         ],
+      );
+
+  static Widget buildTypeField(BuildContext context, String types) => Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            textContent(context, EnumTypeField.field5.toString()),
+            Checkbox(
+              onChanged: (value) {},
+              value: types.contains(EnumTypeField.field5.toString())
+                  ? true
+                  : false,
+              activeColor: Colors.green[900],
+            ),
+            widthBox10(),
+            textContent(context, EnumTypeField.field7.toString()),
+            Checkbox(
+              onChanged: (value) {},
+              value: types.contains(EnumTypeField.field7.toString())
+                  ? true
+                  : false,
+              activeColor: Colors.green[900],
+            ),
+            widthBox10(),
+            textContent(context, EnumTypeField.field11.toString()),
+            Checkbox(
+              onChanged: (value) {},
+              value: types.contains(EnumTypeField.field11.toString())
+                  ? true
+                  : false,
+              activeColor: Colors.green[900],
+            ),
+          ],
+        ),
       );
 
   static Widget progress() => Container(

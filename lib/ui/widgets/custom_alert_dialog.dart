@@ -104,7 +104,7 @@ class CustomAlertDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            WidgetUtil.sizeBox10(),
+            WidgetUtil.heightBox10(),
             Text(
               content,
               softWrap: true,

@@ -29,7 +29,7 @@ class _AccountTabState extends State<AccountTab> {
   }
 
   _checkLogged() async {
-   Auth.getCurrentUser().then((user) {
+    Auth.getCurrentUser().then((user) {
       setState(() {
         if (user != null) {
           isLogin = isLoginValue;
@@ -40,7 +40,7 @@ class _AccountTabState extends State<AccountTab> {
     });
   }
 
-  _logOut()  {
+  _logOut() {
     Auth.signOut();
     setState(() {
       isLogin = isNotLoginValue;
@@ -127,26 +127,25 @@ class _AccountTabState extends State<AccountTab> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      WidgetUtil.sizeBox10(),
+                      WidgetUtil.heightBox10(),
                       Container(
                         height: 100.0,
                         width: 100.0,
                         child: CircleAvatar(
                           backgroundImage: (snapshot
                                   .data.profilePictureURL.isNotEmpty)
-                              ? NetworkImage(
-                                  '${snapshot.data.profilePictureURL}?height=500')
+                              ? NetworkImage(snapshot.data.profilePictureURL)
                               : AssetImage(Const.icDefault),
                         ),
                       ),
-                      WidgetUtil.sizeBox10(),
+                      WidgetUtil.heightBox10(),
                       WidgetUtil.textContent(context, snapshot.data.fullName),
-                      WidgetUtil.sizeBox5(),
+                      WidgetUtil.heightBox5(),
                       WidgetUtil.textBody1Grey(context, snapshot.data.email),
-                      WidgetUtil.sizeBox5(),
+                      WidgetUtil.heightBox5(),
                       WidgetUtil.textBody1Grey(context, snapshot.data.userID),
-                      WidgetUtil.sizeBox5(),
-                      WidgetUtil.sizeBox20(),
+                      WidgetUtil.heightBox5(),
+                      WidgetUtil.heightBox20(),
                       DashboardMenuRowThree(
                         firstIcon: Icons.access_time,
                         firstLabel: Const.watchSchedule,

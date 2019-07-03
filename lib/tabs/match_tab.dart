@@ -3,22 +3,27 @@ import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city_model.dart';
 import 'package:bongdaphui/models/district_model.dart';
-import 'package:bongdaphui/models/schedule_club_model.dart';
+import 'package:bongdaphui/models/match_model.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class FindClubsTab extends StatefulWidget {
+class MatchTab extends StatefulWidget {
+  final String typeMatch;
+
+  MatchTab({Key key, this.typeMatch}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return _FindClubsTabState();
+    return _MatchTabState();
   }
 }
 
-class _FindClubsTabState extends State<FindClubsTab>
+class _MatchTabState extends State<MatchTab>
     implements SelectCityListener, SelectDistrictListener {
   List<CityModel> _listCity = List();
   List<DistrictModel> _listDistrict = List();
@@ -61,22 +66,23 @@ class _FindClubsTabState extends State<FindClubsTab>
     });
   }
 
-  List<ScheduleClubModel> _getList(AsyncSnapshot dataSnapshot) {
-    List<ScheduleClubModel> list = new List();
+  List<MatchModel> _getList(AsyncSnapshot dataSnapshot) {
+    List<MatchModel> list = new List();
     for (var value in dataSnapshot.data.documents) {
-      ScheduleClubModel model = new ScheduleClubModel.fromJson(value);
-      if (_city.id == model.idCity &&
-          ('0' == _district.id || _district.id == model.idDistrict)) {
+      MatchModel model = new MatchModel.fromJson(value);
+      if (_city.id == model.city &&
+          ('0' == _district.id || _district.id == model.district) &&
+          model.typeMatch == widget.typeMatch) {
         list.add(model);
       }
     }
     list.sort((a, b) {
-      return a.id.compareTo(b.id);
+      return a.from.compareTo(b.from);
     });
     return list;
   }
 
-  Widget _fillCard(BuildContext context, ScheduleClubModel model) => Row(
+  Widget _fillCard(BuildContext context, MatchModel model) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
@@ -87,14 +93,12 @@ class _FindClubsTabState extends State<FindClubsTab>
                 height: Const.size_60,
                 child: CircleAvatar(
                   backgroundColor: Colors.green[900],
-                  backgroundImage: model.photoUrl.isEmpty
+                  backgroundImage: model.photo.isEmpty
                       ? AssetImage(Const.icPlaying)
-                      : NetworkImage(model.photoUrl),
+                      : NetworkImage(model.photo),
                 ),
               ),
-              SizedBox(
-                height: Const.size_10,
-              ),
+              WidgetUtil.heightBox10(),
               IconButton(
                 icon: Icon(
                   Icons.phone,
@@ -114,64 +118,53 @@ class _FindClubsTabState extends State<FindClubsTab>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                WidgetUtil.textTitle(context, model.nameClub),
-                SizedBox(
-                  height: Const.size_5,
-                ),
+                WidgetUtil.textTitle(context, model.name),
+                WidgetUtil.heightBox5(),
                 Row(
                   children: <Widget>[
                     WidgetUtil.textBody1Grey(context, Const.contact_),
                     WidgetUtil.textContent(context, model.phone),
                   ],
                 ),
-                SizedBox(
-                  height: Const.size_5,
-                ),
+                WidgetUtil.heightBox5(),
                 Row(
                   children: <Widget>[
-                    WidgetUtil.textBody1Grey(context, Const.typeField),
-                    WidgetUtil.textContent(context, model.typeField),
+                    WidgetUtil.textBody1Grey(context, Const.from),
+                    WidgetUtil.textContent(
+                        context, DateTimeUtil.toDate(int.parse(model.from)))
                   ],
                 ),
-                SizedBox(
-                  height: Const.size_5,
+                WidgetUtil.heightBox5(),
+                Row(
+                  children: <Widget>[
+                    WidgetUtil.textBody1Grey(context, Const.to),
+                    WidgetUtil.textContent(
+                        context, DateTimeUtil.toDate(int.parse(model.to)))
+                  ],
                 ),
+                WidgetUtil.heightBox5(),
                 Row(
                   children: <Widget>[
                     WidgetUtil.textBody1Grey(context, Const.area),
                     Utils.getArea(
-                        context, _listCity, model.idCity, model.idDistrict)
+                        context, _listCity, model.city, model.district)
                   ],
                 ),
-                SizedBox(
-                  height: Const.size_10,
-                ),
+                WidgetUtil.heightBox5(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        WidgetUtil.textContent(context, model.startTime),
-                        WidgetUtil.textBody1Grey(context, Const.start)
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        WidgetUtil.textContent(context, model.endTime),
-                        WidgetUtil.textBody1Grey(context, Const.end)
-                      ],
-                    )
+                    WidgetUtil.textBody1Grey(context, Const.typeField),
+                    WidgetUtil.buildTypeField(context, model.typeField),
                   ],
-                )
+                ),
+                WidgetUtil.heightBox5(),
               ],
             ),
           ))
         ],
       );
 
-  Widget _postCard(BuildContext context, ScheduleClubModel model) => Card(
+  Widget _postCard(BuildContext context, MatchModel model) => Card(
         margin: const EdgeInsets.only(
             left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
         elevation: 2.0,
@@ -181,9 +174,7 @@ class _FindClubsTabState extends State<FindClubsTab>
               padding: const EdgeInsets.all(Const.size_8),
               child: _fillCard(context, model),
             ),
-            SizedBox(
-              height: Const.size_5,
-            ),
+            WidgetUtil.heightBox5(),
           ],
         ),
       );
@@ -199,7 +190,8 @@ class _FindClubsTabState extends State<FindClubsTab>
                 Utils.showNotLoginAlert(context);
               } else {
                 Navigator.of(context).pushNamed(Const.insertMatchRoute,
-                    arguments: ScreenArguments(false, fireBaseUser.uid));
+                    arguments:
+                        ScreenArguments(widget.typeMatch, fireBaseUser.uid));
               }
             });
           },
@@ -209,7 +201,7 @@ class _FindClubsTabState extends State<FindClubsTab>
         backgroundColor: Colors.white,
         body: StreamBuilder(
             stream: Firestore.instance
-                .collection(Const.scheduleClubCollection)
+                .collection(Const.matchCollection)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)

@@ -53,14 +53,10 @@ class ClubModel {
         'countRating': countRating,
         'rating': rating,
         'players': players,
-        'comments': comments,
+        'comments': comments;
       };
 
   String amountPlayer;
-
-//  Future<int> getAmountPlayer() async {
-//    return players.length;
-//  }
 
   setAmountPlayer() async {
     amountPlayer = players.length.toString();

@@ -2,8 +2,8 @@ import 'package:bmnav/bmnav.dart';
 import 'package:bongdaphui/tabs/account_tab.dart';
 import 'package:bongdaphui/tabs/clubs_tab.dart';
 import 'package:bongdaphui/tabs/fields_tab.dart';
-import 'package:bongdaphui/tabs/find_clubs_tab.dart';
-import 'package:bongdaphui/tabs/find_players_tab.dart';
+import 'package:bongdaphui/tabs/match_tab.dart';
+import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +21,8 @@ class _MainScreenState extends State<MainScreen>
   final PageStorageBucket bucket = PageStorageBucket();
   final List<Widget> tabs = [
     FieldsTab(),
-    FindPlayersTab(),
-    FindClubsTab(),
+    MatchTab(typeMatch: EnumTypeMatch.player.toString()),
+    MatchTab(typeMatch: EnumTypeMatch.club.toString()),
     ClubsTab(),
     AccountTab()
   ];

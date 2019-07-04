@@ -3,11 +3,11 @@ import 'dart:core';
 import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/business/validator.dart';
 import 'package:bongdaphui/models/user.dart';
-import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
+import 'package:bongdaphui/utils/widget.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 
@@ -215,27 +215,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } catch (e) {
         print("Error in sign up: $e");
         String exception = Auth.getExceptionText(e);
-        _showErrorAlert(
+        WidgetUtil.showAlert(
+          context: context,
           title: Const.registerFail,
           content: exception,
           onPressed: _changeBlackVisible,
         );
       }
     }
-  }
-
-  void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return CustomAlertDialog(
-          rightText: Const.close,
-          content: content,
-          title: title,
-          leftOnPressed: onPressed,
-        );
-      },
-    );
   }
 }

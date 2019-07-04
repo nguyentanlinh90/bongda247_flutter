@@ -31,12 +31,15 @@ class Const {
   static const String elevenPeoPle = "11 người";
   static const String countPlayer = "Số cầu thủ";
   static const String captain = "Đội trưởng:  ";
+  static const String place = "Nơi thành lập:";
+  static const String notYetPlace = "Bạn chưa chọn nơi thành lập";
   static const String area = "Khu vực:  ";
   static const String insertSchedulePlayer = "Thêm lịch đá muốn thi đấu";
   static const String yourName = "Tên của bạn";
   static const String fullName = "Họ và tên";
   static const String nameClub = "Tên đội bóng";
   static const String phoneNumber = "Số điện thoại";
+  static const String captainName = "Tên đội trưởng";
   static const String emailAddress = "Địa chỉ email";
   static const String password = "Mật khẩu";
   static const String createNewAccount = "Tạo tài khoản";
@@ -73,6 +76,7 @@ class Const {
   static const String insertMatchSuccess = "Thêm lịch thi đấu thành công";
   static const String insertClubSuccess = "Thêm đội thành công";
   static const String insertMatchFail = "Có lỗi khi thêm lịch thi đấu";
+  static const String insertClubFail = "Có lỗi khi thêm đội bóng";
   static const String camera = "Máy ảnh";
   static const String gallery = "Bộ sưu tập";
 
@@ -140,4 +144,9 @@ class Const {
   static const String fieldsCollection = kReleaseMode ? "fields" : "fields";
   static const String matchCollection = kReleaseMode ? "match" : "match_dev";
   static const String clubCollection = kReleaseMode ? "clubs" : "clubs_dev";
+
+  //FireBase Storage Path Image
+  static const String clubPath = kReleaseMode ? "clubs" : "clubs_dev";
+
+
 }

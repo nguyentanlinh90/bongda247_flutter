@@ -63,10 +63,10 @@ class _ClubsTabState extends State<ClubsTab>
 
   int count = 0;
 
-  getAmountPlayer(ClubModel model) async {
-    count = model.players.length;
-    setState(() {});
-  }
+//  getAmountPlayer(ClubModel model) async {
+//    count = model.players.length;
+//    setState(() {});
+//  }
 
   List<ClubModel> _getList(AsyncSnapshot dataSnapshot) {
     List<ClubModel> list = new List();
@@ -133,7 +133,7 @@ class _ClubsTabState extends State<ClubsTab>
                 Row(
                   children: <Widget>[
                     WidgetUtil.textBody1Grey(context, Const.captain),
-                    WidgetUtil.textContent(context, model.caption)
+                    WidgetUtil.textContent(context, model.captionName)
                   ],
                   verticalDirection: VerticalDirection.up,
                 ),

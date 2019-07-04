@@ -184,8 +184,6 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
             );
           });
     } else {
-      String id =
-          '${DateTime.now().millisecondsSinceEpoch}${Utils.randomString(4)}';
 
       String typeField = '';
       if (_valueFivePeople)
@@ -196,7 +194,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         typeField = typeField + EnumTypeField.field11.toString();
 
       MatchModel matchModel = MatchModel(
-          id,
+          Utils.generateId(),
           args.idUser,
           args.typeMatch,
           typeField,

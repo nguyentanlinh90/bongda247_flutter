@@ -2,6 +2,7 @@ import 'package:bongdaphui/listener/insert_listener.dart';
 import 'package:bongdaphui/listener/select_time_end_listener.dart';
 import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
+import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';
@@ -228,4 +229,26 @@ class WidgetUtil {
         child: Center(child: CircularProgressIndicator()),
         color: Colors.white,
       );
+
+  static void showSnackBar(BuildContext context, String content) =>
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(content)));
+
+  static void showAlert(
+      {BuildContext context,
+      String title,
+      String content,
+      VoidCallback onPressed}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          rightText: Const.close,
+          content: content,
+          title: title,
+          rightOnPressed: onPressed,
+        );
+      },
+    );
+  }
 }

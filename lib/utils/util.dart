@@ -186,4 +186,8 @@ class Utils {
   static void popDataSignIn(BuildContext context) {
     Navigator.of(context).pop({Const.signInData: Const.signInSuccess});
   }
+
+  static String generateId() {
+    return '${DateTime.now().millisecondsSinceEpoch}${Utils.randomString(4)}';
+  }
 }

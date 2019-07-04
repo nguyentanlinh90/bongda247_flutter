@@ -21,4 +21,12 @@ class Validator {
   static bool validatePassword(String text) {
     return text.toString().length >= 6;
   }
+
+  static bool validateDistrict(String text) {
+    return '0' != text;
+  }
+
+  static bool validateEmpty(String text) {
+    return text.isNotEmpty;
+  }
 }

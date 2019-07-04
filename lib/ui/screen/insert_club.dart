@@ -144,7 +144,10 @@ class _InsertClubScreenState extends State<InsertClubScreen>
     }
 
     void _pop() {
-      Navigator.pop(context);
+//      Navigator.pop(context);
+      setState(() {
+        _blackVisible = !_blackVisible;
+      });
     }
 
     Future _insertClub(BuildContext context) async {
@@ -178,7 +181,8 @@ class _InsertClubScreenState extends State<InsertClubScreen>
               _captainName.text,
               _phoneNumber.text,
               _city.id,
-              _district.id);
+              _district.id,
+              user.toJson().toString());
 
           FireBase.addClub(clubModel).whenComplete(() {
             WidgetUtil.showAlert(

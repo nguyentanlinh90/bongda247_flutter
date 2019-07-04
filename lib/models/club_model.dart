@@ -1,3 +1,5 @@
+import 'package:bongdaphui/models/user.dart';
+
 class ClubModel {
   final String id;
 
@@ -21,10 +23,10 @@ class ClubModel {
 //  String rating;
 //  List<dynamic> players;
 //  List<dynamic> comments;
-//  dynamic user;
+  String user;
 
   ClubModel(this.id, this.photo, this.name, this.captionName, this.phone,
-      this.idCity, this.idDistrict);
+      this.idCity, this.idDistrict, this.user);
 
   ClubModel.fromJson(Map<String, dynamic> value)
       : this.id = value['id'],
@@ -37,7 +39,7 @@ class ClubModel {
 //        this.dob = value['dob'],
 //        this.address = value['address'],
         this.idCity = value['idCity'],
-        this.idDistrict = value['idDistrict'];
+        this.idDistrict = value['idDistrict'],
 
 //        this.matchWin = value['matchWin'],
 //        this.matchLose = value['matchLose'],
@@ -45,7 +47,7 @@ class ClubModel {
 //        this.rating = value['rating'],
 //        this.players = value['players'],
 //        this.comments = value['comments'],
-//        this.user = value['user'];
+        this.user = value['user'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -58,14 +60,14 @@ class ClubModel {
 //        'dob': dob,
 //        'address': address,
         'idCity': idCity,
-        'idDistrict': idDistrict
+        'idDistrict': idDistrict,
 //        'matchWin': matchWin,
 //        'matchLose': matchLose,
 //        'countRating': countRating,
 //        'rating': rating,
 //        'players': players,
 //        'comments': comments,
-//        'user': user
+        'user': user
       };
 
   String amountPlayer;

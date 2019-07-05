@@ -1,4 +1,4 @@
-import 'package:bongdaphui/models/district_model.dart';
+import 'package:bongdaphui/models/district.dart';
 
 abstract class SelectDistrictListener {
   void onSelectDistrict(DistrictModel model);

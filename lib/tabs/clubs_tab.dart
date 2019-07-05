@@ -1,9 +1,9 @@
 import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
-import 'package:bongdaphui/models/city_model.dart';
-import 'package:bongdaphui/models/club_model.dart';
-import 'package:bongdaphui/models/district_model.dart';
+import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/club.dart';
+import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/ui/screen/insert_club.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
@@ -75,7 +75,7 @@ class _ClubsTabState extends State<ClubsTab>
 
     for (int i = 0; i < documentSnapshots.length; i++) {
       ClubModel model = new ClubModel.fromJson(documentSnapshots[i].data);
-      model.setAmountPlayer();
+//      model.setAmountPlayer();
 
       if (_city.id == model.idCity &&
           ('0' == _district.id || _district.id == model.idDistrict)) {
@@ -88,109 +88,6 @@ class _ClubsTabState extends State<ClubsTab>
     });
     return list;
   }
-
-  Widget _fillCard(BuildContext context, ClubModel model) => Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: Const.size_60,
-                height: Const.size_60,
-                child: CircleAvatar(
-                    backgroundColor: Colors.green[900],
-                    backgroundImage: model.photo.isEmpty
-                        ? AssetImage(Const.icPlaying)
-                        : NetworkImage(model.photo)),
-              ),
-              SizedBox(
-                height: Const.size_10,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.phone,
-                  color: Colors.green[900],
-                  size: Const.size_35,
-                ),
-                onPressed: () {
-                  Utils.callPhone(model.phone);
-                },
-              ),
-            ],
-          ),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                WidgetUtil.textTitle(context, model.name),
-                SizedBox(
-                  height: Const.size_5,
-                ),
-                Row(
-                  children: <Widget>[
-                    WidgetUtil.textBody1Grey(context, Const.captain),
-                    WidgetUtil.textContent(context, model.captionName)
-                  ],
-                  verticalDirection: VerticalDirection.up,
-                ),
-                SizedBox(
-                  height: Const.size_5,
-                ),
-                Row(
-                  children: <Widget>[
-                    WidgetUtil.textBody1Grey(context, Const.area),
-                    Utils.getArea(
-                        context, _listCity, model.idCity, model.idDistrict)
-                  ],
-                ),
-                SizedBox(
-                  height: Const.size_10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        WidgetUtil.textContent(context, model.phone),
-                        WidgetUtil.textBody1Grey(context, Const.contact)
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        WidgetUtil.textContent(context, model.amountPlayer),
-                        WidgetUtil.textBody1Grey(context, Const.countPlayer)
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          ))
-        ],
-      );
-
-  Widget _postCard(BuildContext context, ClubModel model) => Card(
-        margin: const EdgeInsets.only(
-            left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
-        elevation: 2.0,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(Const.size_8),
-              child: _fillCard(context, model),
-            ),
-            SizedBox(
-              height: Const.size_5,
-            ),
-          ],
-        ),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +104,9 @@ class _ClubsTabState extends State<ClubsTab>
 //                    arguments: fireBaseUser.uid);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => InsertClubScreen(uid: fireBaseUser.uid)),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          InsertClubScreen(uid: fireBaseUser.uid)),
                 );
               }
             });
@@ -245,8 +144,8 @@ class _ClubsTabState extends State<ClubsTab>
                                   itemBuilder: (context, i) {
                                     return GestureDetector(
                                         onTap: () => print(i),
-                                        child: _postCard(
-                                            context, _getList(snapshot)[i]));
+                                        child: WidgetUtil.postCardClub(context,
+                                            _getList(snapshot)[i], _listCity));
                                   }))
                           : WidgetUtil.showViewNoData(context),
                     )

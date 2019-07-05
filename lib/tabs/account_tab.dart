@@ -1,5 +1,6 @@
 import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/models/user.dart';
+import 'package:bongdaphui/ui/screen/my_clubs.dart';
 import 'package:bongdaphui/ui/screen/sign_in_screen.dart';
 import 'package:bongdaphui/ui/screen/sign_up_screen.dart';
 import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
@@ -21,6 +22,7 @@ class _AccountTabState extends State<AccountTab> {
   final int isLoginValue = 1;
   final isNotLoginValue = 2;
   int isLogin = 0;
+  UserModel userModel;
 
   @override
   void initState() {
@@ -123,6 +125,7 @@ class _AccountTabState extends State<AccountTab> {
                   ),
                 );
               } else {
+                userModel = snapshot.data;
                 return Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,6 +150,18 @@ class _AccountTabState extends State<AccountTab> {
                       WidgetUtil.heightBox5(),
                       WidgetUtil.heightBox20(),
                       DashboardMenuRowThree(
+                        firstIcon: Icons.group_work,
+                        firstLabel: Const.myClubs,
+                        firstOnPress:  _openMyClubs,
+                        secondIcon: Icons.add,
+                        secondLabel: Const.insertSchedule,
+                        secondOnPress: () => {print('linhnt 222')},
+                        thirdIcon: Icons.exit_to_app,
+                        thirdLabel: Const.logout,
+                        thirdOnPress: () => {_questionSignOut()},
+                      ),
+                      WidgetUtil.heightBox5(),
+                      DashboardMenuRowThree(
                         firstIcon: Icons.access_time,
                         firstLabel: Const.watchSchedule,
                         firstOnPress: () => {print('linhnt 111')},
@@ -157,9 +172,6 @@ class _AccountTabState extends State<AccountTab> {
                         thirdLabel: Const.logout,
                         thirdOnPress: () => {_questionSignOut()},
                       ),
-                      SizedBox(
-                        height: 10.0,
-                      )
                     ],
                   ),
                 );
@@ -245,4 +257,12 @@ class _AccountTabState extends State<AccountTab> {
           ),
         ),
       );
+
+  _openMyClubs() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MyClubsScreen(userModel: userModel)),
+    );
+  }
 }

@@ -1,9 +1,9 @@
 import 'package:bongdaphui/business/auth.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
-import 'package:bongdaphui/models/city_model.dart';
-import 'package:bongdaphui/models/district_model.dart';
-import 'package:bongdaphui/models/match_model.dart';
+import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/district.dart';
+import 'package:bongdaphui/models/match.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
 import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';

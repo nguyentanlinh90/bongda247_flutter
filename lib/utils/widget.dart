@@ -2,10 +2,13 @@ import 'package:bongdaphui/listener/insert_listener.dart';
 import 'package:bongdaphui/listener/select_time_end_listener.dart';
 import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
+import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/club.dart';
 import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/Enum.dart';
 import 'package:bongdaphui/utils/const.dart';
+import 'package:bongdaphui/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class WidgetUtil {
@@ -251,4 +254,107 @@ class WidgetUtil {
       },
     );
   }
+
+  static Widget fillCardClub(BuildContext context, ClubModel model, List<CityModel> _listCity) => Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            width: Const.size_60,
+            height: Const.size_60,
+            child: CircleAvatar(
+                backgroundColor: Colors.green[900],
+                backgroundImage: model.photo.isEmpty
+                    ? AssetImage(Const.icPlaying)
+                    : NetworkImage(model.photo)),
+          ),
+          SizedBox(
+            height: Const.size_10,
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.phone,
+              color: Colors.green[900],
+              size: Const.size_35,
+            ),
+            onPressed: () {
+              Utils.callPhone(model.phone);
+            },
+          ),
+        ],
+      ),
+      Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                WidgetUtil.textTitle(context, model.name),
+                SizedBox(
+                  height: Const.size_5,
+                ),
+                Row(
+                  children: <Widget>[
+                    WidgetUtil.textBody1Grey(context, Const.captain),
+                    WidgetUtil.textContent(context, model.captionName)
+                  ],
+                  verticalDirection: VerticalDirection.up,
+                ),
+                SizedBox(
+                  height: Const.size_5,
+                ),
+                Row(
+                  children: <Widget>[
+                    WidgetUtil.textBody1Grey(context, Const.area),
+                    Utils.getArea(
+                        context, _listCity, model.idCity, model.idDistrict)
+                  ],
+                ),
+                SizedBox(
+                  height: Const.size_10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        WidgetUtil.textContent(context, model.phone),
+                        WidgetUtil.textBody1Grey(context, Const.contact)
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        WidgetUtil.textContent(context, "111"),
+                        WidgetUtil.textBody1Grey(context, Const.countPlayer)
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
+          ))
+    ],
+  );
+
+  static Widget postCardClub(BuildContext context, ClubModel model, List<CityModel> _listCity) => Card(
+    margin: const EdgeInsets.only(
+        left: Const.size_8, right: Const.size_8, bottom: Const.size_8),
+    elevation: 2.0,
+    child: Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(Const.size_8),
+          child: fillCardClub(context, model, _listCity),
+        ),
+        SizedBox(
+          height: Const.size_5,
+        ),
+      ],
+    ),
+  );
 }

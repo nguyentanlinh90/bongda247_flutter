@@ -1,4 +1,4 @@
-import 'package:bongdaphui/models/tutorial_model.dart';
+import 'package:bongdaphui/models/tutorial.dart';
 import 'package:bongdaphui/ui/screen/insert_club.dart';
 import 'package:bongdaphui/ui/screen/insert_match.dart';
 import 'package:bongdaphui/ui/screen/main_screen.dart';

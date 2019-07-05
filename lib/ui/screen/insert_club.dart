@@ -6,9 +6,9 @@ import 'package:bongdaphui/business/validator.dart';
 import 'package:bongdaphui/handel/image_picker_handler.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
-import 'package:bongdaphui/models/city_model.dart';
-import 'package:bongdaphui/models/club_model.dart';
-import 'package:bongdaphui/models/district_model.dart';
+import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/club.dart';
+import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/models/user.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
@@ -145,10 +145,10 @@ class _InsertClubScreenState extends State<InsertClubScreen>
     }
 
     void _pop() {
-//      Navigator.pop(context);
-      setState(() {
-        _blackVisible = !_blackVisible;
-      });
+      Navigator.pop(context);
+//      setState(() {
+//        _blackVisible = !_blackVisible;
+//      });
     }
 
     Future _insertClub(BuildContext context) async {
@@ -188,13 +188,14 @@ class _InsertClubScreenState extends State<InsertClubScreen>
           FireBase.addClub(clubModel).whenComplete(() {
             //add club to user model (update data)
             ClubModel clubModel = new ClubModel(
-                id: Utils.generateId(),
-                photo: downloadUrlPic,
-                name: _fullName.text,
-                captionName: _captainName.text,
-                phone: _phoneNumber.text,
-                idCity: _city.id,
-                idDistrict: _district.id);
+              id: Utils.generateId(),
+              photo: downloadUrlPic,
+              name: _fullName.text,
+              captionName: _captainName.text,
+              phone: _phoneNumber.text,
+              idCity: _city.id,
+              idDistrict: _district.id,
+            );
 
             Firestore.instance
                 .collection(Const.usersCollection)

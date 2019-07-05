@@ -34,10 +34,9 @@ class ClubModel {
       this.countRating,
       this.rating,
       this.players,
-      this.comments,
-      this.amountPlayer});
+      this.comments});
 
-  ClubModel.fromJson(Map<String, dynamic> value)
+  ClubModel.fromJson(Map<dynamic, dynamic> value)
       : this.id = value['id'],
         this.user = value['user'],
         this.photo = value['photo'],
@@ -76,10 +75,8 @@ class ClubModel {
         'comments': comments
       };
 
-  String amountPlayer;
-
-  setAmountPlayer() async {
+//  setAmountPlayer() async {
 //    amountPlayer = players.length.toString();
-    amountPlayer = '2';
-  }
+//    amountPlayer = '2';
+//  }
 }

@@ -1,4 +1,4 @@
-import 'package:bongdaphui/models/tutorial_model.dart';
+import 'package:bongdaphui/models/tutorial.dart';
 import 'package:bongdaphui/ui/widgets/custom_flat_button.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/shared_preferences.dart';

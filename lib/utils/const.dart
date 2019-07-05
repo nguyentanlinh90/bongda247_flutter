@@ -79,6 +79,7 @@ class Const {
   static const String insertClubFail = "Có lỗi khi thêm đội bóng";
   static const String camera = "Máy ảnh";
   static const String gallery = "Bộ sưu tập";
+  static const String myClubs = "Đội bóng của bạn";
 
   //string data
   static const String signInData = "signInData";

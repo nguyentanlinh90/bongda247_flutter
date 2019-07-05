@@ -1,5 +1,5 @@
-import 'package:bongdaphui/models/club_model.dart';
-import 'package:bongdaphui/models/match_model.dart';
+import 'package:bongdaphui/models/club.dart';
+import 'package:bongdaphui/models/match.dart';
 import 'package:bongdaphui/models/user.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

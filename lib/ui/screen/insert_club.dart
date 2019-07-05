@@ -15,6 +15,7 @@ import 'package:bongdaphui/ui/widgets/custom_text_field.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/util.dart';
 import 'package:bongdaphui/utils/widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -174,23 +175,40 @@ class _InsertClubScreenState extends State<InsertClubScreen>
         }
 
         try {
-          ClubModel clubModel = ClubModel(
-              Utils.generateId(),
-              downloadUrlPic,
-              _fullName.text,
-              _captainName.text,
-              _phoneNumber.text,
-              _city.id,
-              _district.id,
-              user.toJson().toString());
+          ClubModel clubModel = new ClubModel(
+              id: Utils.generateId(),
+              photo: downloadUrlPic,
+              name: _fullName.text,
+              captionName: _captainName.text,
+              phone: _phoneNumber.text,
+              idCity: _city.id,
+              idDistrict: _district.id,
+              user: user.toJson().toString());
 
           FireBase.addClub(clubModel).whenComplete(() {
-            WidgetUtil.showAlert(
-              context: context,
-              title: Const.alert,
-              content: Const.insertClubSuccess,
-              onPressed: _pop,
-            );
+            //add club to user model (update data)
+            ClubModel clubModel = new ClubModel(
+                id: Utils.generateId(),
+                photo: downloadUrlPic,
+                name: _fullName.text,
+                captionName: _captainName.text,
+                phone: _phoneNumber.text,
+                idCity: _city.id,
+                idDistrict: _district.id);
+
+            Firestore.instance
+                .collection(Const.usersCollection)
+                .document(user.userID)
+                .updateData({
+              'clubs': FieldValue.arrayUnion([clubModel.toJson()])
+            }).whenComplete(() {
+              WidgetUtil.showAlert(
+                context: context,
+                title: Const.alert,
+                content: Const.insertClubSuccess,
+                onPressed: _pop,
+              );
+            });
           }).catchError((error) {
             WidgetUtil.showAlert(
               context: context,

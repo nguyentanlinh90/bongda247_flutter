@@ -6,6 +6,8 @@ class UserModel {
   final String email;
   final String phone;
   final String profilePictureURL;
+  final List<dynamic> clubs;
+
 
   UserModel({
     this.userID,
@@ -13,6 +15,7 @@ class UserModel {
     this.email,
     this.phone,
     this.profilePictureURL,
+    this.clubs,
   });
 
   Map<String, Object> toJson() {
@@ -22,6 +25,7 @@ class UserModel {
       'email': email == null ? '' : email,
       'phone': phone == null ? '' : phone,
       'profilePictureURL': profilePictureURL,
+      'profilePictureURL': clubs,
 //      'appIdentifier': 'flutter-onboarding'
     };
   }
@@ -33,6 +37,7 @@ class UserModel {
       email: doc['email'],
       phone: doc['phone'],
       profilePictureURL: doc['profilePictureURL'],
+      clubs: doc['clubs'],
     );
     return user;
   }

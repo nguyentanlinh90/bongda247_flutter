@@ -1,73 +1,79 @@
-import 'package:bongdaphui/models/user.dart';
-
 class ClubModel {
   final String id;
-
-//  String idCaptain;
+  final String user;
   final String photo;
   final String name;
-
-  String captionName;
-
-//  String email;
+  final String captionName;
+  final String email;
   final String phone;
-
-//  String dob;
-//  String address;
+  final String dob;
+  final String address;
   final String idCity;
   final String idDistrict;
+  final String matchWin;
+  final String matchLose;
+  final String countRating;
+  final String rating;
+  final List<dynamic> players;
+  final List<dynamic> comments;
 
-//  String matchWin;
-//  String matchLose;
-//  String countRating;
-//  String rating;
-//  List<dynamic> players;
-//  List<dynamic> comments;
-  String user;
-
-  ClubModel(this.id, this.photo, this.name, this.captionName, this.phone,
-      this.idCity, this.idDistrict, this.user);
+  ClubModel(
+      {this.id,
+      this.user,
+      this.photo,
+      this.name,
+      this.captionName,
+      this.email,
+      this.phone,
+      this.dob,
+      this.address,
+      this.idCity,
+      this.idDistrict,
+      this.matchWin,
+      this.matchLose,
+      this.countRating,
+      this.rating,
+      this.players,
+      this.comments,
+      this.amountPlayer});
 
   ClubModel.fromJson(Map<String, dynamic> value)
       : this.id = value['id'],
-//        this.idCaptain = value['idCaptain'],
+        this.user = value['user'],
         this.photo = value['photo'],
         this.name = value['name'],
         this.captionName = value['captionName'],
-//        this.email = value['email'],
+        this.email = value['email'],
         this.phone = value['phone'],
-//        this.dob = value['dob'],
-//        this.address = value['address'],
+        this.dob = value['dob'],
+        this.address = value['address'],
         this.idCity = value['idCity'],
         this.idDistrict = value['idDistrict'],
-
-//        this.matchWin = value['matchWin'],
-//        this.matchLose = value['matchLose'],
-//        this.countRating = value['countRating'],
-//        this.rating = value['rating'],
-//        this.players = value['players'],
-//        this.comments = value['comments'],
-        this.user = value['user'];
+        this.matchWin = value['matchWin'],
+        this.matchLose = value['matchLose'],
+        this.countRating = value['countRating'],
+        this.rating = value['rating'],
+        this.players = value['players'],
+        this.comments = value['comments'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
-//        'idCaptain': idCaptain,
+        'user': user,
         'photo': photo,
         'name': name,
         'captionName': captionName,
-//        'email': email,
+        'email': email,
         'phone': phone,
-//        'dob': dob,
-//        'address': address,
+        'dob': dob,
+        'address': address,
         'idCity': idCity,
         'idDistrict': idDistrict,
-//        'matchWin': matchWin,
-//        'matchLose': matchLose,
-//        'countRating': countRating,
-//        'rating': rating,
-//        'players': players,
-//        'comments': comments,
-        'user': user
+        'matchWin': matchWin,
+        'matchLose': matchLose,
+        'countRating': countRating,
+        'rating': rating,
+        'players': players,
+        'comments': comments
       };
 
   String amountPlayer;

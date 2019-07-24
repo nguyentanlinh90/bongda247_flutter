@@ -57,8 +57,8 @@ class CustomAlertDialog extends StatelessWidget {
                   leftOnPressed();
                 },
                 splashColor: Colors.black12,
-                borderColor: Colors.black12,
-                borderWidth: Const.size_2,
+                borderColor: Colors.green[900],
+                borderWidth: Const.size_1,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: Const.size_20),
@@ -72,8 +72,8 @@ class CustomAlertDialog extends StatelessWidget {
                     rightOnPressed();
                   },
                   splashColor: Colors.black12,
-                  borderColor: Colors.black12,
-                  borderWidth: Const.size_2,
+                  borderColor: Colors.green[900],
+                  borderWidth: Const.size_1,
                 ),
               )
             ],

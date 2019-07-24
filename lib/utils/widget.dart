@@ -329,8 +329,8 @@ class WidgetUtil {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        WidgetUtil.textContent(context, "111"),
-                        WidgetUtil.textBody1Grey(context, Const.countPlayer)
+                        WidgetUtil.textContent(context, ''),
+                        WidgetUtil.textBody1Grey(context, '')
                       ],
                     )
                   ],

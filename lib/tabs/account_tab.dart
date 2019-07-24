@@ -99,7 +99,7 @@ class _AccountTabState extends State<AccountTab> {
             if (snapshot.hasData) {
               return _accountScreen(snapshot.data.uid);
             } else {
-              _signInSignUpScreen();
+              return _signInSignUpScreen();
             }
           }
         },
@@ -156,8 +156,8 @@ class _AccountTabState extends State<AccountTab> {
                         secondIcon: Icons.add,
                         secondLabel: Const.insertSchedule,
                         secondOnPress: () => {print('linhnt 222')},
-                        thirdIcon: Icons.exit_to_app,
-                        thirdLabel: Const.logout,
+                        thirdIcon: Icons.add,
+                        thirdLabel: Const.insertScheduleClub,
                         thirdOnPress: () => {_questionSignOut()},
                       ),
                       WidgetUtil.heightBox5(),

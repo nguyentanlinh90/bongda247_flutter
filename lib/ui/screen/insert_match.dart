@@ -228,9 +228,11 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
               ? _fullName.text
               : clubModel.name,
           _phoneNumber.text,
-          userModel.profilePictureURL.isEmpty
-              ? ''
-              : userModel.profilePictureURL);
+          args.typeMatch == EnumTypeMatch.player.toString()
+              ? userModel.profilePictureURL.isEmpty
+                  ? ''
+                  : userModel.profilePictureURL
+              : clubModel.photo.isEmpty ? '' : clubModel.photo);
       try {
         FireBase.addMatch(matchModel).whenComplete(() {
           showDialog(

@@ -45,7 +45,8 @@ class Const {
   static const String createNewAccount = "Tạo tài khoản";
   static const String watchSchedule = "Xem lịch đấu";
   static const String insert = "Thêm";
-  static const String insertSchedule = "Thêm lịch đấu";
+  static const String insertSchedule = "Thêm lịch đấu cho bạn";
+  static const String insertScheduleClub = "Thêm lịch đấu cho đội";
   static const String insertClub = "Thêm đội bóng";
   static const String noData = "Không có dữ liệu";
   static const String timeSlot = "Khung thời gian đá được: ";
@@ -114,6 +115,7 @@ class Const {
   static const String icCamera = "$imageDir/ic_camera.png";
 
   //Size
+  static const double size_1 = 1.0;
   static const double size_2 = 2.0;
   static const double size_5 = 5.0;
   static const double size_8 = 8.0;

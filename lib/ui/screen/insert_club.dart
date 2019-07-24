@@ -236,7 +236,7 @@ class _InsertClubScreenState extends State<InsertClubScreen>
           stream: Auth.getUser(widget.uid),
           builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
             if (!snapshot.hasData) {
-              WidgetUtil.progress();
+             return WidgetUtil.progress();
             } else {
               _setUser(snapshot.data);
               return Stack(

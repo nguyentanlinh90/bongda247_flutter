@@ -5,7 +5,7 @@ import 'package:bongdaphui/models/city.dart';
 import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/models/match.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
-import 'package:bongdaphui/utils/Enum.dart';
+import 'package:bongdaphui/models/user.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
@@ -46,18 +46,10 @@ class _MatchTabState extends State<MatchTab>
     });
   }
 
-  void _selectClub(){
-
-  }
-
   @override
   void initState() {
     super.initState();
     _loadListCity();
-
-    if(widget.typeMatch==EnumTypeMatch.club.toString()){
-      _selectClub();
-    }
   }
 
   _loadListCity() async {

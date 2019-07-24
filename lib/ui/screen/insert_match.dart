@@ -235,7 +235,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
     }
   }
 
-  _widgetTimeFrom() => DateTimePicker(
+  Widget _widgetTimeFrom() => DateTimePicker(
         labelText: Const.from,
         firstDate: _fromDate,
         selectedDate: _fromDate,
@@ -256,7 +256,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         },
       );
 
-  _widgetTimeTo() => DateTimePicker(
+  Widget _widgetTimeTo() => DateTimePicker(
         labelText: Const.to,
         firstDate: _fromDate,
         selectedDate: _toDate,
@@ -292,7 +292,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
           stream: Auth.getUser(args.idUser),
           builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
             if (!snapshot.hasData) {
-              WidgetUtil.progress();
+              return WidgetUtil.progress();
             } else {
               _setUser(snapshot.data);
               return Padding(

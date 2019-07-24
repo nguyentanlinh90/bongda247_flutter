@@ -57,8 +57,8 @@ class FormatDate {
 
   static const yyyyMMdd = const FormatDate._internal('yyyy-MM-dd');
   static const ddMMyyyy = const FormatDate._internal('dd/MM/yyyy');
-  static const ddMMyyyyHHmm = const FormatDate._internal('dd/MM/yyyy hh:mm');
+  static const ddMMyyyyHHmm = const FormatDate._internal('dd/MM/yyyy HH:mm');
   static const EEEEddMMyyyy = const FormatDate._internal('EEEE dd/MM/yyyy');
   static const EEEEddMMyyyyhhmm =
-      const FormatDate._internal('EEEE dd/MM/yyyy hh:mm');
+      const FormatDate._internal('EEEE dd/MM/yyyy HH:mm');
 }

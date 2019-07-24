@@ -2,8 +2,10 @@ import 'dart:async' show Future;
 import 'dart:convert';
 
 import 'package:bongdaphui/listener/select_city_listener.dart';
+import 'package:bongdaphui/listener/select_club_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/club.dart';
 import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/ui/widgets/custom_alert_dialog.dart';
 import 'package:bongdaphui/utils/const.dart';
@@ -60,6 +62,36 @@ class Utils {
                 },
                 items: _listCity.map((CityModel value) {
                   return new DropdownMenuItem<CityModel>(
+                    value: value,
+                    child: WidgetUtil.textBody1Grey(context, value.name),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      );
+
+  static buildFormClub(BuildContext context, List<ClubModel> _listCity,
+          ClubModel _city, SelectClubListener listener) =>
+      new FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: Const.size_10),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white))),
+            child: new DropdownButtonHideUnderline(
+              child: new DropdownButton<ClubModel>(
+                value: _city,
+//                hint: Text(Const.selectClub),
+                isDense: true,
+                onChanged: (ClubModel newCityModel) {
+                  listener.onSelectClub(newCityModel);
+                },
+                items: _listCity.map((ClubModel value) {
+                  return new DropdownMenuItem<ClubModel>(
                     value: value,
                     child: WidgetUtil.textBody1Grey(context, value.name),
                   );
@@ -145,6 +177,27 @@ class Utils {
           children: <Widget>[
             buildFormCity(context, _listCity, _city, cityListener)
           ],
+        ),
+      );
+
+  static Widget clubBox(BuildContext context, List<ClubModel> clubs,
+          ClubModel club, SelectClubListener clubListener) =>
+      Card(
+        elevation: 0.0,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.grey[400], width: 1.0),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          height: Const.size_50,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              buildFormClub(context, clubs, club, clubListener)
+            ],
+          ),
         ),
       );
 

@@ -72,8 +72,8 @@ class Utils {
         },
       );
 
-  static buildFormClub(BuildContext context, List<ClubModel> _listCity,
-          ClubModel _city, SelectClubListener listener) =>
+  static buildFormClub(BuildContext context, List<ClubModel> _listClub,
+          ClubModel _club, SelectClubListener listener) =>
       new FormField<String>(
         builder: (FormFieldState<String> state) {
           return InputDecorator(
@@ -84,13 +84,13 @@ class Utils {
                     borderSide: BorderSide(color: Colors.white))),
             child: new DropdownButtonHideUnderline(
               child: new DropdownButton<ClubModel>(
-                value: _city,
-//                hint: Text(Const.selectClub),
+                value: _club,
+                hint: Text(Const.selectClubs),
                 isDense: true,
                 onChanged: (ClubModel newCityModel) {
                   listener.onSelectClub(newCityModel);
                 },
-                items: _listCity.map((ClubModel value) {
+                items: _listClub.map((ClubModel value) {
                   return new DropdownMenuItem<ClubModel>(
                     value: value,
                     child: WidgetUtil.textBody1Grey(context, value.name),
@@ -238,6 +238,10 @@ class Utils {
 
   static void popDataSignIn(BuildContext context) {
     Navigator.of(context).pop({Const.signInData: Const.signInSuccess});
+  }
+
+  static int getTimeNow(){
+    return DateTime.now().millisecondsSinceEpoch;
   }
 
   static String generateId() {

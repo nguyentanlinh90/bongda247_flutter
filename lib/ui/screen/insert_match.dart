@@ -3,11 +3,13 @@ import 'package:bongdaphui/business/fire_base.dart';
 import 'package:bongdaphui/business/validator.dart';
 import 'package:bongdaphui/listener/insert_listener.dart';
 import 'package:bongdaphui/listener/select_city_listener.dart';
+import 'package:bongdaphui/listener/select_club_listener.dart';
 import 'package:bongdaphui/listener/select_district_listener.dart';
 import 'package:bongdaphui/listener/select_time_end_listener.dart';
 import 'package:bongdaphui/listener/select_time_start_listener.dart';
 import 'package:bongdaphui/listener/select_type_field_listener.dart';
 import 'package:bongdaphui/models/city.dart';
+import 'package:bongdaphui/models/club.dart';
 import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/models/match.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
@@ -35,10 +37,11 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         SelectCityListener,
         SelectDistrictListener,
         SelectTimeStartListener,
-        SelectTimeEndListener {
+        SelectTimeEndListener,
+        SelectClubListener {
   ScreenArguments args;
 
-  UserModel user;
+  UserModel userModel;
 
   final TextEditingController _fullName = new TextEditingController();
   final TextEditingController _phoneNumber = new TextEditingController();
@@ -63,6 +66,9 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
   TimeOfDay _toTime =
       TimeOfDay(hour: DateTime.now().hour + 2, minute: DateTime.now().minute);
 
+  List<ClubModel> listClub;
+  ClubModel clubModel;
+
   _getArgs(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
     _nameField = new CustomTextField(
@@ -70,9 +76,7 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
       borderColor: Colors.grey[400],
       errorColor: Colors.red,
       controller: _fullName,
-      hint: args.typeMatch == EnumTypeMatch.player.toString()
-          ? Const.yourName
-          : Const.nameClub,
+      hint: Const.yourName,
       validator: Validator.validateName,
     );
   }
@@ -168,6 +172,15 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
 
   @override
   void onInsert() {
+    if (args.typeMatch == EnumTypeMatch.club.toString() && clubModel == null) {
+      WidgetUtil.showAlert(
+        context: context,
+        title: Const.alert,
+        content: Const.notYetSelectClubs,
+        onPressed: null,
+      );
+      return;
+    }
     int from =
         DateTimeUtil.toMillisecondsSinceEpoch(context, _fromDate, _fromTime);
     int to = DateTimeUtil.toMillisecondsSinceEpoch(context, _toDate, _toTime);
@@ -184,7 +197,6 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
             );
           });
     } else {
-
       String typeField = '';
       if (_valueFivePeople)
         typeField = typeField + EnumTypeField.field5.toString();
@@ -192,6 +204,16 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
         typeField = typeField + EnumTypeField.field7.toString();
       if (_valueElevenPeople)
         typeField = typeField + EnumTypeField.field11.toString();
+
+      if (typeField.isEmpty) {
+        WidgetUtil.showAlert(
+          context: context,
+          title: Const.alert,
+          content: Const.notYetSelectTypeField,
+          onPressed: null,
+        );
+        return;
+      }
 
       MatchModel matchModel = MatchModel(
           Utils.generateId(),
@@ -202,9 +224,13 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
           _district.id,
           '$from',
           '$to',
-          _fullName.text,
+          args.typeMatch == EnumTypeMatch.player.toString()
+              ? _fullName.text
+              : clubModel.name,
           _phoneNumber.text,
-          user.profilePictureURL.isEmpty ? '' : user.profilePictureURL);
+          userModel.profilePictureURL.isEmpty
+              ? ''
+              : userModel.profilePictureURL);
       try {
         FireBase.addMatch(matchModel).whenComplete(() {
           showDialog(
@@ -274,11 +300,22 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
       );
 
   void _setUser(UserModel model) {
-    user = model;
+    userModel = model;
     if (args.typeMatch == EnumTypeMatch.player.toString()) {
-      if (user.fullName.isNotEmpty) _fullName.text = user.fullName;
+      if (userModel.fullName.isNotEmpty) _fullName.text = userModel.fullName;
     }
-    if (user.phone.isNotEmpty) _phoneNumber.text = user.phone;
+    if (userModel.phone.isNotEmpty) _phoneNumber.text = userModel.phone;
+
+    _getList();
+  }
+
+  List<dynamic> _getList() {
+    listClub = List();
+    for (int i = 0; i < userModel.clubs.length; i++) {
+      ClubModel clubModel = ClubModel.fromJson(userModel.clubs[i]);
+      listClub.add(clubModel);
+    }
+    return listClub;
   }
 
   @override
@@ -288,51 +325,65 @@ class _InsertMatchScreenState extends State<InsertMatchScreen>
     return SafeArea(
       child: Scaffold(
         appBar: WidgetUtil.appBar(Const.insertSchedulePlayer),
-        body: StreamBuilder(
-          stream: Auth.getUser(args.idUser),
-          builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
-            if (!snapshot.hasData) {
-              return WidgetUtil.progress();
-            } else {
-              _setUser(snapshot.data);
-              return Padding(
-                padding: const EdgeInsets.all(Const.size_10),
-                child: ListView(
-                  children: <Widget>[
-                    _nameField,
-                    WidgetUtil.heightBox10(),
-                    _phoneField,
-                    WidgetUtil.heightBox10(),
-                    WidgetUtil.textBody1Grey(context, Const.timeSlot),
-                    WidgetUtil.heightBox5(),
-                    _widgetTimeFrom(),
-                    _widgetTimeTo(),
-                    WidgetUtil.heightBox10(),
-                    WidgetUtil.textBody1Grey(context, Const.area),
-                    WidgetUtil.heightBox5(),
-                    Card(
-                      elevation: 0.0,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.grey[400], width: 1.0),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Utils.filterBox(context, _listCity, _city,
-                          _listDistrict, _district, this, this),
-                    ),
-                    WidgetUtil.heightBox10(),
-                    WidgetUtil.textBody1Grey(context, Const.typeField),
-                    WidgetUtil.selectTypeField(context, _valueFivePeople,
-                        _valueSevenPeople, _valueElevenPeople, this),
-                    WidgetUtil.heightBox20(),
-                    WidgetUtil.buttonInsert(Const.insert, this),
-                  ],
-                ),
-              );
-            }
-          },
-        ),
+        body: userModel == null
+            ? StreamBuilder(
+                stream: Auth.getUser(args.idUser),
+                builder:
+                    (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+                  if (!snapshot.hasData) {
+                    return WidgetUtil.progress();
+                  } else {
+                    _setUser(snapshot.data);
+                    return _buildView();
+                  }
+                },
+              )
+            : _buildView(),
       ),
     );
+  }
+
+  Widget _buildView() => Padding(
+        padding: const EdgeInsets.all(Const.size_10),
+        child: ListView(
+          children: <Widget>[
+            args.typeMatch == EnumTypeMatch.player.toString()
+                ? _nameField
+                : Utils.clubBox(context, listClub, clubModel, this),
+            WidgetUtil.heightBox10(),
+            _phoneField,
+            WidgetUtil.heightBox10(),
+            WidgetUtil.textBody1Grey(context, Const.timeSlot),
+            WidgetUtil.heightBox5(),
+            _widgetTimeFrom(),
+            _widgetTimeTo(),
+            WidgetUtil.heightBox10(),
+            WidgetUtil.textBody1Grey(context, Const.area),
+            WidgetUtil.heightBox5(),
+            Card(
+              elevation: 0.0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.grey[400], width: 1.0),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Utils.filterBox(context, _listCity, _city, _listDistrict,
+                  _district, this, this),
+            ),
+            WidgetUtil.heightBox10(),
+            WidgetUtil.textBody1Grey(context, Const.typeField),
+            WidgetUtil.selectTypeField(context, _valueFivePeople,
+                _valueSevenPeople, _valueElevenPeople, this),
+            WidgetUtil.heightBox20(),
+            WidgetUtil.buttonInsert(Const.insert, this),
+          ],
+        ),
+      );
+
+  @override
+  void onSelectClub(ClubModel model) {
+    setState(() {
+      clubModel = model;
+    });
   }
 }

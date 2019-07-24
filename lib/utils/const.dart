@@ -80,6 +80,9 @@ class Const {
   static const String camera = "Máy ảnh";
   static const String gallery = "Bộ sưu tập";
   static const String myClubs = "Đội bóng của bạn";
+  static const String selectClubs = "Chọn đội bóng";
+  static const String notYetSelectClubs = "Bạn chưa chọn đội bóng";
+  static const String notYetSelectTypeField = "Bạn chưa chọn loại sân";
 
   //string data
   static const String signInData = "signInData";

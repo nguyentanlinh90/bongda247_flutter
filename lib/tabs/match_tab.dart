@@ -5,7 +5,6 @@ import 'package:bongdaphui/models/city.dart';
 import 'package:bongdaphui/models/district.dart';
 import 'package:bongdaphui/models/match.dart';
 import 'package:bongdaphui/models/screen_arguments.dart';
-import 'package:bongdaphui/models/user.dart';
 import 'package:bongdaphui/utils/const.dart';
 import 'package:bongdaphui/utils/date_time.dart';
 import 'package:bongdaphui/utils/util.dart';
@@ -73,7 +72,8 @@ class _MatchTabState extends State<MatchTab>
       MatchModel model = new MatchModel.fromJson(value);
       if (_city.id == model.city &&
           ('0' == _district.id || _district.id == model.district) &&
-          model.typeMatch == widget.typeMatch) {
+          model.typeMatch == widget.typeMatch &&
+          int.parse(model.to) >= Utils.getTimeNow()) {
         list.add(model);
       }
     }
